@@ -1,0 +1,143 @@
+:root {
+    --bg-dark: #0a1118;
+    --bg-gradient-teal: #0d252d;
+    --glass-card: rgba(28, 39, 47, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --accent-gold: #ffb703;
+    --text-main: #ffffff;
+    --text-dim: #8b9bb4;
+}
+
+body {
+    background: radial-gradient(circle at 10% 20%, rgba(255, 183, 3, 0.15) 0%, transparent 40%), 
+                linear-gradient(135deg, #023047 0%, #001219 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+    color: white;
+
+    font-family: 'Inter', sans-serif;
+}
+
+.navbar {
+    padding: 2.5rem 0;
+    background: transparent !important;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.05em;
+}
+
+.text-dim { color: var(--text-dim); cursor: pointer; }
+.text-dim:hover { color: var(--text-main); }
+
+.btn-login {
+    background: #ffffff;
+    color: #000;
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 0.5rem 1.4rem;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.contact-page-container {
+    padding: 60px 10%; 
+    color: white;
+}
+
+.contact-header {
+    margin-bottom: 40px;
+    text-align: left; 
+}
+
+.section-tag {
+    color: #FFB703; 
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.contact-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.header-description {
+    font-size: 1.1rem;
+    opacity: 0.8;
+    max-width: 600px; 
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; 
+    gap: 30px;
+    padding: 40px 10%;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #023047;
+}
+
+.input-group input, 
+.input-group select, 
+.input-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+    font-family: inherit;
+}
+
+.input-group textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.info-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-card h3 {
+    margin-bottom: 10px;
+    color: #FFB703;
+}
+
+.info-item {
+    display: flex;
+    align-items: center; 
+    gap: 12px;           
+    margin-bottom: 15px; 
+    color: white;
+}
+
+.info-item i {
+    color: #FFB703;      
+    font-size: 1.2rem;
+    width: 20px;         
+    text-align: center;
+}
+
+.info-item a {
+    color: white;
+    text-decoration: none;
+}
+
+.info-item a:hover {
+    text-decoration: underline;
+}

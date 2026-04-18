@@ -1,0 +1,87 @@
+:root {
+    --bg-dark: #0a1118;
+    --bg-gradient-teal: #0d252d;
+    --glass-card: rgba(28, 39, 47, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --accent-gold: #ffb703;
+    --text-main: #ffffff;
+    --text-dim: #8b9bb4;
+}
+
+body {
+    background: radial-gradient(circle at 10% 20%, rgba(255, 183, 3, 0.15) 0%, transparent 40%), 
+                linear-gradient(135deg, #023047 0%, #001219 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+    color: white;
+
+    font-family: 'Inter', sans-serif;
+}
+
+.navbar {
+    padding: 2.5rem 0;
+    background: transparent !important;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.05em;
+}
+
+.text-dim { color: var(--text-dim); cursor: pointer; }
+.text-dim:hover { color: var(--text-main); }
+
+.btn-login {
+    background: #ffffff;
+    color: #000;
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 0.5rem 1.4rem;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.team-cta {
+    padding: 60px 10% 100px 10%;
+    text-align: center;
+}
+
+.cta-card {
+    background: #023047;
+    color: white;
+    padding: 50px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.cta-card h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.cta-card p {
+    font-size: 1.1rem;
+    opacity: 0.8;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-gold-custom {
+    background-color: #FFB703;
+    color: #023047;
+    padding: 15px 35px;
+    border-radius: 12px;
+    font-weight: 800;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.btn-gold-custom:hover {
+    transform: translateY(-3px);
+    background-color: #fb8500;
+}

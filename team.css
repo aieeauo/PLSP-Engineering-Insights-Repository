@@ -1,0 +1,113 @@
+:root {
+    --bg-dark: #0a1118;
+    --bg-gradient-teal: #0d252d;
+    --glass-card: rgba(28, 39, 47, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --accent-gold: #ffb703;
+    --text-main: #ffffff;
+    --text-dim: #8b9bb4;
+}
+
+body {
+    background: radial-gradient(circle at 10% 20%, rgba(255, 183, 3, 0.15) 0%, transparent 40%), 
+                linear-gradient(135deg, #023047 0%, #001219 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+    color: white;
+
+    font-family: 'Inter', sans-serif;
+}
+
+.navbar {
+    padding: 2.5rem 0;
+    background: transparent !important;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.05em;
+}
+
+.text-dim { color: var(--text-dim); cursor: pointer; }
+.text-dim:hover { color: var(--text-main); }
+
+.btn-login {
+    background: #ffffff;
+    color: #000;
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 0.5rem 1.4rem;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.team-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 40px 10%;
+}
+
+.member-card {
+    flex: 1 1 300px;
+    max-width: 350px;
+}
+
+.member-photo {
+    width: 200px;       
+    height: 200px;      
+    margin: 0 auto;     
+    overflow: hidden;   
+    border-radius: 15px; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2); 
+    margin-bottom: 15px;
+}
+
+.member-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  
+    object-position: top; 
+}
+
+.member-card h3 {
+    margin: 0; 
+    font-size: 1.4rem;
+    color: white;
+}
+
+.member-role {
+    margin-top: 5px; 
+    color: #FFB703; 
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.member-description {
+    margin-top: 10px; 
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.btn-back-fixed {
+    position: fixed;   
+    bottom: 30px;      
+    left: 30px;        
+    background-color: #FFB703; 
+    color: #023047;    
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+    z-index: 1000;     
+    transition: all 0.3s ease;
+}
+
+.btn-back-fixed:hover {
+    background-color: #fb8500;
+    transform: scale(1.05); 
+}
