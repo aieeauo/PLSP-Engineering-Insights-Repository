@@ -26,7 +26,7 @@ async function updateAnalytics() {
 
     const totalElement = document.getElementById('total-resources');
     if (totalElement) {
-        totalElement.innerText = totalFiles > 0 ? totalFiles : "All";
+        totalElement.innerText = totalFiles > 0 ? `${totalFiles}+` : "0";
     }
 }
 

@@ -41,49 +41,74 @@
                 A centralized hub for official Engineering course materials—where you can easily access high-quality PDF modules and in-depth video lectures prepared by your instructors. It’s designed to give PLSP Engineering students one reliable place for faculty-approved resources, helping you build strong skills across all engineering fields.
             </p>
 
-            <div class="stats-card">
-    <p class="stats-card-label">Repository Analytics</p>
-    <div class="row g-4">
-        <div class="col-md-6">
-            <div class="stat-inner-box">
-                <h2 id="pdf-count">0+</h2>
-                <p>PDF Modules</p>
+            <div class="d-flex gap-3">
+                <a href="repository.html" class="btn-gold-custom">
+                    Explore the Repository
+                </a>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="stat-inner-box">
-                <h2 id="video-count">0+</h2>
-                <p>Video Lectures</p>
+
+        <div class="col-lg-5">
+            <div class="stats-card shadow-lg">
+                <p class="stats-card-label">Repository Analytics</p>
+                <div class="row g-4">
+                    <div class="col-6">
+                        <div class="stat-inner-box">
+                            <h2 id="pdf-count">0+</h2>
+                            <p>PDF Modules</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-inner-box">
+                            <h2 id="video-count">0+</h2>
+                            <p>Video Lectures</p>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="stat-inner-box">
+                            <h2 id="total-resources">0</h2>
+                            <p>Total Resources</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-12 mt-4">
-            <div class="stat-inner-box text-center">
-                <h2 id="total-resources">0</h2>
-                <p>Total Resources</p>
-            </div>
-        </div>
-    </div>
-</div>
 
     </div>
 </header>
 
 <main class="container my-5">
     <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100 glass-card-resource">
+                <div class="card-body p-4">
+                    <span class="resource-badge badge-video">LATEST VIDEO</span>
+                    <h3 class="resource-title mt-3" id="latest-video-title">Loading...</h3>
+                    <p class="resource-text" id="latest-video-desc">Fetching the newest lecture from the repository.</p>
+                    <button class="btn-watch" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#videoModal"
+                        onclick="openVideo('videos/verilog-lesson.mp4', 'Verilog HDL Basics')">
+                        <i class="fa fa-play"></i> Watch Featured Lesson
+                    </button>
+                </div>
+            </div>
+        </div>
 
-        <div class="resource-card">
-    <p class="resource-badge badge-video">VIDEO LECTURES</p>
-    <h4 id="latest-video-title">Loading...</h4>
-    <p id="latest-video-desc">Fetching the most recent lecture...</p>
-    <a href="#" id="latest-video-link" class="btn-watch">Watch Featured Lesson</a>
-</div>
-
-<div class="resource-card">
-    <p class="resource-badge badge-pdf">STUDY RESOURCES</p>
-    <h4 id="latest-pdf-title">Loading...</h4>
-    <p id="latest-pdf-desc">Fetching the latest module...</p>
-    <a href="#" id="latest-pdf-link" class="btn-download">Download Latest PDF</a>
-</div>
+        <div class="col-md-6">
+            <div class="card h-100 glass-card-resource">
+                <div class="card-body p-4">
+                    <span class="resource-badge badge-pdf">LATEST PDF</span>
+                    <h3 class="resource-title mt-3" id="latest-pdf-title">Loading...</h3>
+                    <p class="resource-text" id="latest-pdf-desc">Checking for the most recent study guide.</p>
+                    <a href="#" class="btn-download" id="latest-pdf-link" download>
+                        <i class="fas fa-file-download"></i> Download Latest PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+        </div>
+</main>
 
         <div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">

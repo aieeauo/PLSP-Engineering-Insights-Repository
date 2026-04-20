@@ -27,13 +27,19 @@ async function automateLatestResources() {
 
             if (Array.isArray(files) && files.length > 0) {
                 const latestFile = files[files.length - 1];
-
                 const cleanTitle = latestFile.name.split('.')[0].replace(/-/g, ' ');
 
                 document.getElementById(section.titleId).innerText = cleanTitle;
                 document.getElementById(section.descId).innerText = `New ${section.type} available in the ${section.path.split('/').pop()} folder.`;
-                document.getElementById(section.linkId).href = latestFile.html_url;
+                
+                const linkElement = document.getElementById(section.linkId);
+                if (section.type === 'Video') {
+                    linkElement.setAttribute('onclick', `openVideo('${latestFile.download_url}', '${cleanTitle}')`);
+                } else {
+                    linkElement.href = latestFile.download_url;
+                }
             }
+
         } catch (error) {
             console.error(`Failed to automate ${section.type}:`, error);
         }
