@@ -17,7 +17,7 @@ async function updateAnalytics() {
             const count = Array.isArray(data) ? data.length : 0;
             totalFiles += count;
 
-            document.getElementById(folder.elementId).innerText = `${count}+`;
+            document.getElementById(folder.elementId).innerText = `${count}`;
         } catch (error) {
             console.error(`Error counting ${folder.path}:`, error);
             document.getElementById(folder.elementId).innerText = "150+"; 
