@@ -17,3 +17,10 @@ function showForm(type) {
         document.querySelector('[onclick="showForm(\'signup\')"]').classList.add('active');
     }
 }
+
+// Find your login form submission logic and update it:
+document.querySelector('#login-form form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Assuming credentials are correct:
+    loginAsInstructor(); 
+});

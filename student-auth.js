@@ -19,3 +19,9 @@ function showForm(type) {
         document.querySelector('[onclick="showForm(\'signup\')"]').classList.add('active');
     }
 }
+
+// Students should always be set to 'student' role
+document.querySelector('#login-form form').addEventListener('submit', function(e) {
+    localStorage.setItem('userRole', 'student');
+    // Continue to repository.html as normal
+});
