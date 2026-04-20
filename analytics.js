@@ -15,17 +15,15 @@ async function updateAnalytics() {
             const data = await response.json();
             
             const count = Array.isArray(data) ? data.length : 0;
-            totalCount += count; // Add to the running total
+            totalCount += count; 
 
             document.getElementById(folder.elementId).innerText = `${count}+`;
         } catch (error) {
             console.error(`Error fetching ${folder.path}:`, error);
-            // Optional: Static fallback if the API fails
             document.getElementById(folder.elementId).innerText = "---";
         }
     }
 
-    // Update the Total Resources card with the sum
     const totalElement = document.getElementById('total-resources');
     if (totalElement) {
         totalElement.innerText = totalCount;
