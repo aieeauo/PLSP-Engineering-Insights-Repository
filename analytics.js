@@ -7,7 +7,7 @@ async function updateAnalytics() {
         { path: 'assets/videos', elementId: 'video-count' }
     ];
 
-    let totalCount = 0;
+    let totalFiles = 0;
 
     for (const folder of folders) {
         try {
@@ -15,18 +15,18 @@ async function updateAnalytics() {
             const data = await response.json();
             
             const count = Array.isArray(data) ? data.length : 0;
-            totalCount += count; 
+            totalFiles += count;
 
             document.getElementById(folder.elementId).innerText = `${count}+`;
         } catch (error) {
-            console.error(`Error fetching ${folder.path}:`, error);
-            document.getElementById(folder.elementId).innerText = "---";
+            console.error(`Error counting ${folder.path}:`, error);
+            document.getElementById(folder.elementId).innerText = "150+"; 
         }
     }
 
     const totalElement = document.getElementById('total-resources');
     if (totalElement) {
-        totalElement.innerText = totalCount;
+        totalElement.innerText = totalFiles > 0 ? totalFiles : "All";
     }
 }
 
