@@ -1,20 +1,19 @@
-/**
- * @param {string} videoSrc 
- * @param {string} videoTitle
- */
+const video = document.getElementById('modalVideoPlayer');
+const timeDisplay = document.getElementById('videoTime');
+
 function filterResources() {
     const searchTerm = document.getElementById('repoSearch').value.toLowerCase();
     const filterValue = document.getElementById('resourceFilter').value;
-    
     const cards = document.querySelectorAll('.insight-card');
 
     cards.forEach(card => {
         const title = card.querySelector('h3').innerText.toLowerCase();
         const description = card.querySelector('p').innerText.toLowerCase();
-        const tag = card.querySelector('.card-tag').innerText;
+        const tagElement = card.querySelector('.card-tag');
+        
+        const tag = tagElement ? tagElement.innerText : 'all';
 
         const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
-        
         const matchesFilter = (filterValue === 'all') || (tag === filterValue);
 
         if (matchesSearch && matchesFilter) {
@@ -27,45 +26,38 @@ function filterResources() {
     });
 }
 
-function openVideo(videoSrc, videoTitle) {
-    const player = document.getElementById('modalVideoPlayer');
-    const titleLabel = document.getElementById('videoModalLabel');
+function openVideo(src, title) {
+    const userRole = localStorage.getItem('userRole') || 'guest';
 
-    if (player) {
-        titleLabel.innerText = videoTitle;
-        
-        player.src = videoSrc;
-        
-        player.load();
-        player.play();
+    if (userRole === 'guest') {
+        alert("Access Restricted: Please log in to your Student or Instructor portal to watch lecture videos.");
+        return; 
     }
-}
 
-function openVideo(src, title) {
-    const player = document.getElementById('modalVideoPlayer');
     const titleLabel = document.getElementById('videoModalLabel');
+    if (video && titleLabel) {
+        titleLabel.innerText = title;
+        video.src = src;
+        video.load();
+        video.play();
 
-    titleLabel.innerText = title;
-    player.src = src;
-    player.load();
-    player.play();
-    
-    document.getElementById('playBtn').className = "fas fa-pause";
-}
-
-const video = document.getElementById('modalVideoPlayer');
-
-function openVideo(src, title) {
-    document.getElementById('videoModalLabel').innerText = title;
-    video.src = src;
-    video.load();
-    video.play();
+        const playBtnIcon = document.getElementById('playBtn');
+        if (playBtnIcon) playBtnIcon.className = "fas fa-pause";
+        
+        const videoModal = new bootstrap.Modal(document.getElementById('videoModal'));
+        videoModal.show();
+    }
 }
 
 function togglePlay() {
     const icon = document.getElementById('playBtn');
-    if (video.paused) { video.play(); icon.className = "fas fa-pause"; } 
-    else { video.pause(); icon.className = "fas fa-play"; }
+    if (video.paused) { 
+        video.play(); 
+        icon.className = "fas fa-pause"; 
+    } else { 
+        video.pause(); 
+        icon.className = "fas fa-play"; 
+    }
 }
 
 function toggleMute() {
@@ -81,29 +73,11 @@ function changeSpeed() {
 }
 
 function toggleFullScreen() {
-    if (video.requestFullscreen) video.requestFullscreen();
-}
-
-function stopVideo() {
-    video.pause();
-    video.src = "";
-}
-
-const player = document.getElementById('modalVideoPlayer');
-const timeDisplay = document.getElementById('videoTime');
-
-player.onloadedmetadata = function() {
-    updateTimeDisplay();
-};
-
-player.ontimeupdate = function() {
-    updateTimeDisplay();
-};
-
-function updateTimeDisplay() {
-    const current = formatTime(player.currentTime);
-    const total = formatTime(player.duration);
-    timeDisplay.innerText = `${current} / ${total}`;
+    if (video.requestFullscreen) {
+        video.requestFullscreen();
+    } else if (video.webkitRequestFullscreen) { 
+        video.webkitRequestFullscreen();
+    }
 }
 
 function formatTime(seconds) {
@@ -113,14 +87,35 @@ function formatTime(seconds) {
     return `${minutes}:${secs < 10 ? '0' + secs : secs}`;
 }
 
+function updateTimeDisplay() {
+    if (video && timeDisplay) {
+        const current = formatTime(video.currentTime);
+        const total = formatTime(video.duration);
+        timeDisplay.innerText = `${current} / ${total}`;
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const myModalEl = document.getElementById('videoModal');
-
     if (myModalEl) {
         myModalEl.addEventListener('hidden.bs.modal', function () {
-            const player = document.getElementById('modalVideoPlayer');
-            player.pause();
-            player.src = "";
+            video.pause();
+            video.src = "";
         });
     }
+
+    if (video) {
+        video.onloadedmetadata = updateTimeDisplay;
+        video.ontimeupdate = updateTimeDisplay;
+    }
+
+    document.querySelectorAll('.btn-download').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            const userRole = localStorage.getItem('userRole') || 'guest';
+            if (userRole === 'guest') {
+                e.preventDefault();
+                alert("Access Restricted: Please log in to your Student or Instructor portal to watch lecture videos.");
+            }
+        });
+    });
 });

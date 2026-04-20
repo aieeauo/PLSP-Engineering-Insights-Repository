@@ -17,19 +17,19 @@
 
 <body>
     <nav class="navbar navbar-dark container">
-        <a class="navbar-brand" href="index.html">PLSP Eng'g Insights Repository</a>
-        <div class="ms-auto d-flex align-items-center gap-4">
-            <a href="index.html" class="text-dim small text-decoration-none">Home</a>
-            <a href="about.html" class="text-dim small text-decoration-none">About</a>
-            <a href="contactfaculty.html" class="student-only-link text-dim small text-decoration-none">
-            Contact Faculty
+    <a class="navbar-brand" href="index.html">PLSP Eng'g Insights Repository</a>
+
+    <div class="ms-auto d-flex align-items-center gap-4">
+        <a href="index.html" class="text-dim small text-decoration-none">Home</a>
+        <a href="about.html" class="text-dim small text-decoration-none">About</a>
+        <a href="contactfaculty.html" class="student-only-link text-dim small text-decoration-none" style="display: none;">Contact Faculty</a>
+        <a href="admin.html" class="instructor-link text-dim small text-decoration-none" style="display: none;">Admin</a>
+        <a href="portalaccess.html" class="guest-only btn-portalaccess text-decoration-none">Portal Access</a>
+        <a href="#" onclick="logoutUser()" class="logout-link text-dim small text-decoration-none" style="display: none; color: #ff4d4d;">
+            <i class="fas fa-sign-out-alt"></i> Logout
         </a>
-            <a href="admin.html" class="instructor-link text-dim small text-decoration-none" style="display: none;">
-            <i class="fas fa-lock"></i> Admin
-            </a>
-            <a href="portalaccess.html" class="btn-portalaccess text-decoration-none">Portal Access</a>
-        </div>
-    </nav>
+    </div>
+</nav>
 
     <main class="repo-container container mt-5">
         <header class="repo-header text-center mb-5">
@@ -55,14 +55,7 @@
 <div class="insights-grid" id="insightsGrid">
     </div>
         </header>
-    <div class="insights-grid">
-    <div class="insight-card instructor-only" style="display: none; border: 2px dashed var(--accent-gold);">
-        <i class="fa-solid fa-plus-circle card-main-icon"></i>
-        <h3>Management Tools</h3>
-        <p>Faculty access to upload or remove materials.</p>
-        <a href="admin.html" class="btn-watch">Go to Admin</a>
-    </div>
-    </div>
+    
     <div class="insights-grid">
         <div class="insight-card">
         <div class="card-tag">PDF</div>
@@ -98,7 +91,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="videoModalLabel">Engineering Module</h5>
+                <h5 class="modal-title" id="videoModalLabel">Engineering Lecture</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" onclick="stopVideo()"></button>
             </div>
 
@@ -132,7 +125,6 @@
 </main>
 
 <script src="repository.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="mgmt.js"></script>
 
 </body>

@@ -18,12 +18,6 @@ function showForm(type) {
     }
 }
 
-document.querySelector('#login-form form').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    loginAsInstructor(); 
-});
-
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.querySelector('#login-form form');
     
@@ -32,8 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             
             localStorage.setItem('userRole', 'instructor');
-            
-            window.location.href = 'admin.html';
+            window.location.href = 'index.html';
         });
     }
 });

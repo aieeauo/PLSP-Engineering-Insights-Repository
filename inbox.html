@@ -16,20 +16,19 @@
 
 <body>
     <nav class="navbar navbar-dark container">
-        <a class="navbar-brand" href="index.html">PLSP Eng'g Insights Repository</a>
+    <a class="navbar-brand" href="index.html">PLSP Eng'g Insights Repository</a>
 
-        <div class="ms-auto d-flex align-items-center gap-4">
-            <a href="index.html" class="text-dim small text-decoration-none">Home</a>
-            <a href="about.html" class="text-dim small text-decoration-none">About</a>
-            <a href="contactfaculty.html" class="student-only-link text-dim small text-decoration-none">
-            Contact Faculty
+    <div class="ms-auto d-flex align-items-center gap-4">
+        <a href="index.html" class="text-dim small text-decoration-none">Home</a>
+        <a href="about.html" class="text-dim small text-decoration-none">About</a>
+        <a href="contactfaculty.html" class="student-only-link text-dim small text-decoration-none" style="display: none;">Contact Faculty</a>
+        <a href="admin.html" class="instructor-link text-dim small text-decoration-none" style="display: none;">Admin</a>
+        <a href="portalaccess.html" class="guest-only btn-portalaccess text-decoration-none">Portal Access</a>
+        <a href="#" onclick="logoutUser()" class="logout-link text-dim small text-decoration-none" style="display: none; color: #ff4d4d;">
+            <i class="fas fa-sign-out-alt"></i> Logout
         </a>
-            <a href="admin.html" class="instructor-link text-dim small text-decoration-none" style="display: none;">
-            <i class="fas fa-lock"></i> Admin
-            </a>
-            <a href="portalaccess.html" class="btn-portalaccess text-decoration-none">Portal Access</a>
-        </div>
-    </nav>
+    </div>
+</nav>
     
 <main class="admin-wrapper">
         <div class="content-constrain">
