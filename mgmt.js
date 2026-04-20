@@ -2,40 +2,34 @@
  * Role Manager - Central Logic for View Separation
  */
 
-// This function runs automatically on every page
 function applyViewPermissions() {
     const userRole = localStorage.getItem('userRole') || 'student';
     const isInstructor = (userRole === 'instructor');
+    const isStudent = (userRole === 'student');
 
-    // A. VISIBILITY: Navigation Links
-    // Elements with class "instructor-link" will only show for instructors
+    // 1. INSTRUCTOR-ONLY: Management Link
     document.querySelectorAll('.instructor-link').forEach(el => {
         el.style.display = isInstructor ? 'inline-block' : 'none';
     });
 
-    // B. RESOURCES: Management Cards
-    // Elements with class "instructor-only" (like an "Upload" card)
+    // 2. STUDENT-ONLY: Contact Faculty Link
+    document.querySelectorAll('.student-only-link').forEach(el => {
+        // Only display if the role is 'student'
+        el.style.display = isStudent ? 'inline-block' : 'none';
+    });
+
+    // 3. REPOSITORY: Management Card
     document.querySelectorAll('.instructor-only').forEach(el => {
         el.style.display = isInstructor ? 'flex' : 'none';
     });
 
-    // C. ANALYTICS: Admin controls in index.html
+    // 4. ANALYTICS: Reset Button
     const resetBtn = document.getElementById('reset-analytics-btn');
     if (resetBtn) {
         resetBtn.style.display = isInstructor ? 'inline-block' : 'none';
     }
 }
 
-// Function to call during Instructor Login
-function loginAsInstructor() {
-    localStorage.setItem('userRole', 'instructor');
-    window.location.href = 'admin.html';
-}
-
-// Function to call for Logout
-function logout() {
-    localStorage.setItem('userRole', 'student');
-    window.location.href = 'index.html';
-}
+// ... (keep your login/logout functions as they were) ...
 
 document.addEventListener('DOMContentLoaded', applyViewPermissions);
