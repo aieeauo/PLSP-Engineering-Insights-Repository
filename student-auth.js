@@ -1,0 +1,21 @@
+function showForm(type) {
+    const logIn = document.getElementById('login-form');
+    const signUp = document.getElementById('signup-form');
+    const tabs = document.querySelectorAll('.tab-link');
+
+    if (type === 'login') {
+        logIn.style.display = 'block';
+        signUp.style.display = 'none';
+        
+        // Update active tab styling
+        tabs.forEach(tab => tab.classList.remove('active'));
+        document.querySelector('[onclick="showForm(\'signin\')"]').classList.add('active');
+    } else {
+        logIn.style.display = 'none';
+        signUp.style.display = 'block';
+        
+        // Update active tab styling
+        tabs.forEach(tab => tab.classList.remove('active'));
+        document.querySelector('[onclick="showForm(\'signup\')"]').classList.add('active');
+    }
+}

@@ -12,7 +12,7 @@ body {
     background: radial-gradient(circle at 10% 20%, rgba(255, 183, 3, 0.15) 0%, transparent 40%), 
                 linear-gradient(135deg, #023047 0%, #001219 100%);
     background-attachment: fixed;
-    min-height: 100vh;
+    min-height: 120vh;
     margin: 0;
     color: white;
 
@@ -33,7 +33,7 @@ body {
 .text-dim { color: var(--text-dim); cursor: pointer; }
 .text-dim:hover { color: var(--text-main); }
 
-.btn-login {
+.btn-portalaccess {
     background: #ffffff;
     color: #000;
     font-weight: 700;
@@ -43,71 +43,25 @@ body {
     font-size: 0.9rem;
 }
 
-.btn-login {
-    background-color: white;
-    color: #023047;          
-    padding: 10px 25px;      
-    border-radius: 50px;    
-    font-weight: bold;
-    text-decoration: none;   
-    transition: all 0.3s ease;
-    border: 2px solid white; 
-}
-
-.btn-login:hover {
+.btn-portalaccess:hover {
     background-color: transparent;
     color: white;            
     border: 2px solid white; 
     transform: translateY(-2px); 
 }
 
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
-
-.login-dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0; 
-    background-color: white;
-    min-width: 180px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    border-radius: 12px;
-    z-index: 1;
-    overflow: hidden;
-    margin-top: 10px;
-}
-
-.dropdown-content a {
-    color: #023047;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    font-size: 0.9rem;
-    transition: background 0.2s;
-}
-
 .choice-wrapper {
-    min-height: 80vh;
+    min-height: 65vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #023047 0%, #011e2c 100%);
-    padding: 20px;
     color: white;
 }
 
 .choice-header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
 }
 
 .choice-header h1 {

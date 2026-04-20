@@ -33,7 +33,7 @@ body {
 .text-dim { color: var(--text-dim); cursor: pointer; }
 .text-dim:hover { color: var(--text-main); }
 
-.btn-login {
+.btn-portalaccess {
     background: #ffffff;
     color: #000;
     font-weight: 700;
@@ -43,8 +43,15 @@ body {
     font-size: 0.9rem;
 }
 
+.btn-portalaccess:hover {
+    background-color: transparent;
+    color: white;            
+    border: 2px solid white; 
+    transform: translateY(-2px); 
+}
+
 .hero-section {
-    padding: 80px 0;
+    padding: 10px 0;
 }
 
 .pre-header {
@@ -171,7 +178,7 @@ h1.display-title {
     line-height: 1.5;
 }
 
-.btn-repository {
+.btn-gold-custom {
     background-color: #ffb703; 
     color: #000000 !important; 
     font-weight: 900;          
@@ -185,8 +192,82 @@ h1.display-title {
     text-decoration: none;
 }
 
-.btn-repository:hover {
-    background-color: #fb8500; 
+.btn-gold-custom:hover {
+    background-color: #df851f; 
     transform: translateY(-2px); 
     color: #000;
 }
+
+.btn-download{
+    background: #ffb703;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: black;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.btn-watch {
+    background: #ffb703;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: black;
+    padding: 9px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.btn-watch:hover, .btn-download:hover {
+    background: #df851f;
+    color: black;
+    transform: translateY(-2px); 
+}
+
+#videoModal .modal-content {
+    background: #000;
+    border: 1px solid #ffb703; 
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.modal-header {
+    background: #023047; 
+    border-bottom: 1px solid rgba(255, 183, 3, 0.2);
+}
+
+.video-container { position: relative; width: 100%; }
+
+.custom-controls-pill {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 10px 25px;
+    border-radius: 50px; /* Pill Shape */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: 0.3s ease;
+}
+
+.video-container:hover .custom-controls-pill { opacity: 1; }
+
+.player-btn {
+    background: none; border: none;
+    color: white; font-size: 1.1rem;
+    cursor: pointer; margin: 0 10px;
+}
+
+.player-btn:hover { color: #ffb703; }
+.time-text { color: white; font-size: 0.85rem; }
+.speed-text { font-weight: bold; font-size: 0.9rem; min-width: 35px; }

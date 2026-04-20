@@ -1,0 +1,205 @@
+:root {
+    --bg-dark: #0a1118;
+    --bg-gradient-teal: #0d252d;
+    --glass-card: rgba(28, 39, 47, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --accent-gold: #ffb703;
+    --text-main: #ffffff;
+    --text-dim: #8b9bb4;
+}
+
+body {
+    background: radial-gradient(circle at 10% 20%, rgba(255, 183, 3, 0.15) 0%, transparent 40%), 
+                linear-gradient(135deg, #023047 0%, #001219 100%);
+    background-attachment: fixed;
+    min-height: 110vh;
+    margin: 0;
+    color: white;
+
+    font-family: 'Inter', sans-serif;
+}
+
+.navbar {
+    padding: 2.5rem 0;
+    background: transparent !important;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.05em;
+}
+
+.text-dim { color: var(--text-dim); cursor: pointer; }
+.text-dim:hover { color: var(--text-main); }
+
+.btn-portalaccess {
+    background: #ffffff;
+    color: #000;
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 0.5rem 1.4rem;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.btn-portalaccess:hover {
+    background-color: transparent;
+    color: white;            
+    border: 2px solid white; 
+    transform: translateY(-2px); 
+}
+
+.inbox-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.message-card {
+    background: var(--glass-card);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    padding: 20px;
+    transition: 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.message-card.unread {
+    border-left: 5px solid var(--accent-gold);
+    background: rgba(255, 183, 3, 0.03);
+}
+
+.message-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-gold);
+}
+
+.msg-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.student-name {
+    font-weight: 800;
+    color: var(--white);
+    font-size: 0.9rem;
+}
+
+.msg-date {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.msg-preview {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.msg-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-reply, .btn-archive {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-reply {
+    background: var(--accent-gold);
+    color: #000;
+}
+
+.btn-archive {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.btn-archive:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-back {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--glass-border);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none; 
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s ease;
+    margin-top: 100px;
+    margin-bottom: 20px; 
+    margin-left: 20px;
+    align-self: flex-start; 
+    color: var(--accent-gold);
+}
+
+.btn-back:hover {
+    color: var(--accent-gold);
+    border-color: var(--accent-gold);
+    background: rgba(255, 183, 3, 0.05);
+    transform: translateX(-5px); 
+}
+
+.btn-back i {
+    font-size: 0.8rem;
+}
+
+.modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
+.modal-content { background: #001219; border: 1px solid var(--accent-gold); border-radius: 12px; margin: 10% auto; padding: 25px; max-width: 500px; }
+
+.btn-modal-action{
+    background: var(--accent-gold);
+    color: #023047; 
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-modal-action :hover{
+    box-shadow: 0 0 20px rgba(255, 183, 3, 0.4);
+    transform: scale(1.02);
+}
+
+.reply-to-info {
+    background: rgba(2, 48, 71, 0.8);
+    border-left: 3px solid var(--accent-gold);
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 0 8px 8px 0;
+}
+
+.reply-to-info p { margin: 0; font-size: 0.9rem; color: var(--text-dim); }
+.reply-to-info span { color: white; font-weight: 600; }
+
+.close-modal {
+    cursor: pointer; 
+    color: var(--text-dim);
+    font-size: 1.5rem;
+    transition: 0.3s;
+}
+
+.close-modal:hover {
+    color: var(--accent-gold); 
+}
