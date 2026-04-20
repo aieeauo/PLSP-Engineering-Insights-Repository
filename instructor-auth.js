@@ -18,9 +18,22 @@ function showForm(type) {
     }
 }
 
-// Find your login form submission logic and update it:
 document.querySelector('#login-form form').addEventListener('submit', function(e) {
     e.preventDefault();
-    // Assuming credentials are correct:
+
     loginAsInstructor(); 
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.querySelector('#login-form form');
+    
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            localStorage.setItem('userRole', 'instructor');
+            
+            window.location.href = 'admin.html';
+        });
+    }
 });
