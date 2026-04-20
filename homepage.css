@@ -144,6 +144,25 @@ h1.display-title {
     border-radius: 12px;
 }
 
+.resource-grid {
+    display: flex;
+    gap: 24px;
+    margin-top: 2rem;
+}
+
+.resource-card {
+    background: #ffffff; 
+    border-radius: 12px;
+    padding: 30px;
+    flex: 1;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.resource-card:hover {
+    transform: translateY(-5px);
+}
+
 .resource-badge {
     display: inline-block;
     font-family: 'Inter', sans-serif;
@@ -152,80 +171,68 @@ h1.display-title {
     letter-spacing: 0.15em;     
     text-transform: uppercase;
     padding: 4px 0;             
-    margin-bottom: 0.5rem;
-}
-
-.badge-video {
+    margin-bottom: 1.5rem;
     color: var(--accent-gold);
     border-bottom: 2px solid var(--accent-gold);
 }
 
-.badge-pdf {
-    color: var(--accent-gold);
-    border-bottom: 2px solid var(--accent-gold);
-}
-
-.resource-title {
+.resource-card h4 {
+    color: #000000;
+    font-size: 1.8rem;
     font-weight: 800;
-    font-size: 1.5rem;
-    color: black;
-    margin-top: 10px;
+    margin-bottom: 1rem;
+    line-height: 1.2;
 }
 
-.resource-text {
-    color: black;
-    font-size: 0.95rem;
+.resource-card p {
+    color: #333333; 
+    font-size: 1rem;
     line-height: 1.5;
+    margin-bottom: 2rem;
 }
 
-.btn-gold-custom {
-    background-color: #ffb703; 
-    color: #000000 !important; 
-    font-weight: 900;          
+.btn-watch, .btn-download {
+    background: #ffb703;
+    color: #000000 !important;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
     font-size: 0.9rem;
-    padding: 10px 24px;        
-    border-radius: 12px;       
-    border: none;              
-    transition: all 0.2s ease;
-    text-transform: none;      
-    display: inline-block;
-    text-decoration: none;
-}
-
-.btn-gold-custom:hover {
-    background-color: #df851f; 
-    transform: translateY(-2px); 
-    color: #000;
-}
-
-.btn-download{
-    background: #ffb703;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: black;
-    padding: 12px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.85rem;
-    transition: 0.3s;
-}
-
-.btn-watch {
-    background: #ffb703;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: black;
-    padding: 9px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
     transition: 0.3s;
 }
 
 .btn-watch:hover, .btn-download:hover {
     background: #df851f;
-    color: black;
-    transform: translateY(-2px); 
+    transform: scale(1.02);
+}
+
+.recipient-label {
+    display: block;
+    color: #ffffff;
+    font-weight: 800;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.custom-select {
+    width: 100%;
+    padding: 12px 15px;
+    background: #e9ecef; 
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: #000000;
+    font-weight: 500;
+    outline: none;
+}
+
+.custom-select option {
+    background: #ffffff;
+    color: #000000;
 }
 
 #videoModal .modal-content {
