@@ -26,67 +26,68 @@
         </div>
     </nav>
     
-    <main class="admin-wrapper">
-    <div class="content-constrain">
-        <header class="admin-header-centered">
-            <h1>Faculty Inquiries</h1>
-            <p>Communicate with students regarding repository materials and technical questions.</p>
-        </header>
+<main class="admin-wrapper">
+        <div class="content-constrain">
+            <header class="admin-header-centered">
+                <h1>Faculty Inquiries</h1>
+                <p class="header-description">Communicate with students regarding repository materials and technical questions.</p>
+            </header>
 
-        <section class="inbox-container">
-            <div class="message-card unread">
-                <div class="msg-header">
-                    <span class="student-name">Anniejel Llaguno</span>
-                    <span class="msg-date">Today, 2:45 PM</span>
+            <section class="inbox-container">
+                <div class="message-card unread">
+                    <div class="msg-header">
+                        <span class="student-name">Anniejel Llaguno</span>
+                        <span class="msg-date">Today, 2:45 PM</span>
+                    </div>
+                    <p class="msg-preview">Good day, Engr! I am having trouble with the testbench code for the half-adder circuit...</p>
+                    <div class="msg-actions">
+                        <button class="btn-reply" onclick="openReplyModal('Anniejel Llaguno')">
+                            <i class="fa-solid fa-reply"></i> Reply
+                        </button>
+                        <button class="btn-archive"><i class="fa-solid fa-box-archive"></i> Archive</button>
+                    </div>
                 </div>
-                <p class="msg-preview">Good day, Engr! I am having trouble with the testbench code for the half-adder circuit...</p>
-                <div class="msg-actions">
-                    <button class="btn-reply" onclick="openReplyModal(this)">
-                        <i class="fa-solid fa-reply"></i> Reply
-                    </button>
-                    <button class="btn-archive"><i class="fa-solid fa-box-archive"></i> Archive</button>
-                </div>
-            </div>
 
-            <div class="message-card">
-                <div class="msg-header">
-                    <span class="student-name">Daniela Pujanes</span>
-                    <span class="msg-date">Yesterday</span>
+                <div class="message-card">
+                    <div class="msg-header">
+                        <span class="student-name">Daniela Pujanes</span>
+                        <span class="msg-date">Yesterday</span>
+                    </div>
+                    <p class="msg-preview">Sir, will the advanced Arduino modules be uploaded this week? Thank you!</p>
+                    <div class="msg-actions">
+                        <button class="btn-reply" onclick="openReplyModal('Daniela Pujanes')">
+                            <i class="fa-solid fa-reply"></i> Reply
+                        </button>
+                        <button class="btn-archive"><i class="fa-solid fa-box-archive"></i> Archive</button>
+                    </div>
                 </div>
-                <p class="msg-preview">Sir, will the advanced Arduino modules be uploaded this week? Thank you!</p>
-                <div class="msg-actions">
-                    <button class="btn-reply" onclick="openReplyModal(this)">
-                        <i class="fa-solid fa-reply"></i> Reply
-                    </button>
-                    <button class="btn-archive"><i class="fa-solid fa-box-archive"></i> Archive</button>
-                </div>
+            </section>
+
+            <div class="text-center mt-5">
+                <a href="admin.html" class="btn-back text-decoration-none">
+                    <i class="fa-solid fa-chevron-left"></i> Back to Dashboard
+                </a>
             </div>
-        </section>
+        </div>
+
         <div id="replyModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Reply to Inquiry</h3>
-            <span class="close-modal" onclick="closeReplyModal()">&times;</span>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Reply to Inquiry</h3>
+                    <span class="close-modal" onclick="closeReplyModal()">&times;</span>
+                </div>
+                <div class="reply-to-info">
+                    <p>Replying to: <strong id="replyStudentName">Student Name</strong></p>
+                </div>
+                <form id="replyForm">
+                    <textarea id="replyMessage" class="form-control" rows="5" placeholder="Type your response..." required></textarea>
+                    <button type="submit" class="btn-modal-action">Send Message</button>
+                </form>
+            </div>
         </div>
-        <div class="reply-to-info">
-            <p>Replying to: <strong id="replyStudentName">Student Name</strong></p>
-        </div>
-        <form id="replyForm">
-            <form id="replyForm">
-                <textarea id="replyMessage" class="form-control" rows="5" placeholder="Type your response..." required></textarea>
-                <button type="submit" class="btn-modal-action">Send Message</button>
-            </form>
-        </form>
-    </div>
-</div>
-    </div>
-</main>
+    </main>
 
-<a href="admin.html" class="btn-back">
-    <i class="fa-solid fa-chevron-left"></i> Back to Dashboard
-</a>
-
-<script src="inbox.js"></script>
+    <script src="inbox.js"></script>
 
 </body>
 </html>
