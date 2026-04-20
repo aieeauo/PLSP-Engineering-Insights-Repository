@@ -1,5 +1,6 @@
 function applyViewPermissions() {
     const userRole = localStorage.getItem('userRole') || 'guest';
+    
     const isInstructor = (userRole === 'instructor');
     const isStudent = (userRole === 'student');
     const isGuest = (userRole === 'guest');
@@ -13,7 +14,7 @@ function applyViewPermissions() {
     });
 
     document.querySelectorAll('.restricted-nav').forEach(el => {
-        el.style.display = (isStudent || isInstructor) ? 'inline-block' : 'none';
+        el.style.display = isGuest ? 'none' : 'inline-block';
     });
 
     document.querySelectorAll('.guest-only').forEach(el => {
@@ -21,24 +22,21 @@ function applyViewPermissions() {
     });
 
     document.querySelectorAll('.logout-link').forEach(el => {
-        el.style.display = !isGuest ? 'inline-block' : 'none';
+        el.style.display = isGuest ? 'none' : 'inline-block';
     });
 
-const userRole = localStorage.getItem('userRole') || 'guest';
-
-if (userRole === 'guest') {
-    document.querySelectorAll('.btn-watch, .btn-download').forEach(btn => {
-        btn.style.opacity = "0.5";
-        btn.style.cursor = "not-allowed";
-        btn.title = "Login required";
-    });
-}
+    if (isGuest) {
+        document.querySelectorAll('.btn-watch, .btn-download').forEach(btn => {
+            btn.style.opacity = "0.6";
+            btn.style.cursor = "not-allowed";
+        });
+    }
 }
 
-window.logoutUser = function() {
-
-    localStorage.removeItem('userRole');
-    window.location.href = 'index.html';
+window.logoutUser = function(e) {
+    if (e) e.preventDefault();
+    localStorage.removeItem('userRole'); 
+    window.location.href = 'index.html';    
 };
 
 document.addEventListener('DOMContentLoaded', applyViewPermissions);
