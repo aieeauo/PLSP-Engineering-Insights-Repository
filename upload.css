@@ -151,7 +151,7 @@ textarea:focus {
     gap: 8px;
     transition: 0.3s ease;
     margin-top: 100px;
-    margin-bottom: 20px; 
+    margin-bottom: 40px; 
     margin-left: 20px;
     align-self: flex-start; 
     color: var(--accent-gold);

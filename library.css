@@ -11,7 +11,7 @@
 body {background: radial-gradient(circle at 10% 20%, rgba(255, 183, 3, 0.15) 0%, transparent 40%), 
 linear-gradient(135deg, #023047 0%, #001219 100%);
 background-attachment: fixed;
-min-height: 110vh;
+min-height: 100vh;
 margin: 0;
 color: white;
 font-family: 'Inter', sans-serif;
@@ -158,8 +158,8 @@ display: inline-flex;
 align-items: center;
 gap: 8px;
 transition: 0.3s ease;
-margin-top: 100px;
-margin-bottom: 20px; 
+margin-top: 220px;
+margin-bottom: 40px; 
 margin-left: 20px;
 align-self: flex-start; 
 color: var(--accent-gold);

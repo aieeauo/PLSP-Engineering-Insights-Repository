@@ -12,7 +12,7 @@ body {
     background: radial-gradient(circle at 10% 20%, rgba(255, 183, 3, 0.15) 0%, transparent 40%), 
                 linear-gradient(135deg, #023047 0%, #001219 100%);
     background-attachment: fixed;
-    min-height: 110vh;
+    min-height: 100vh;
     margin: 0;
     color: white;
 
@@ -130,17 +130,36 @@ body {
 .btn-archive:hover { background: rgba(255, 255, 255, 0.2); }
 
 .btn-back {
-    color: var(--accent-gold);
-    text-decoration: none;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: 0.3s;
-    margin-bottom: 40px;
+background: transparent;
+color: var(--text-dim);
+border: 1px solid var(--glass-border);
+padding: 8px 16px;
+border-radius: 6px;
+font-size: 0.9rem;
+cursor: pointer;
+text-decoration: none; 
+display: inline-flex;
+align-items: center;
+gap: 8px;
+transition: 0.3s ease;
+margin-top: 220px;
+margin-bottom: 20px; 
+margin-left: 20px;
+align-self: flex-start; 
+color: var(--accent-gold);
+justify-content: left;
 }
 
-.btn-back:hover { transform: translateX(-5px); }
+.btn-back:hover {
+color: var(--accent-gold);
+border-color: var(--accent-gold);
+background: rgba(255, 183, 3, 0.05);
+transform: translateX(-5px); 
+}
+
+.btn-back i {
+font-size: 0.8rem;
+}
 
 .modal { 
     display: none; 
