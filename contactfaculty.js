@@ -1,35 +1,47 @@
 document.addEventListener("DOMContentLoaded", function() {
+    const inquiryForm = document.getElementById("inquiryForm"); 
     const instructorSelect = document.getElementById("instructor");
-    const inquiryForm = document.getElementById("inquiryForm");
 
     function syncInstructors() {
         const savedInstructors = JSON.parse(localStorage.getItem("plsp_instructors")) || [];
-        
-        instructorSelect.innerHTML = `
-            <option value="plsp.coe@plsp.edu.ph">General (Office of the Dean)</option>
-        `;
+        instructorSelect.innerHTML = `<option value="plsp.coe@plsp.edu.ph">General (Office of the Dean)</option>`;
 
         savedInstructors.forEach(inst => {
-            if (inst.name !== "Engr. Anniejel Llaguno" && inst.name !== "Engr. Jericho Ontalan") {
-                const option = document.createElement("option");
-                option.value = inst.email;
-                option.textContent = inst.name;
-                instructorSelect.appendChild(option);
-            }
+            const option = document.createElement("option");
+            option.value = inst.id; 
+            option.textContent = inst.name;
+            instructorSelect.appendChild(option);
         });
     }
-
     syncInstructors();
 
-    inquiryForm.addEventListener("submit", function(e) {
-        const name = document.getElementById("fullName").value;
-        const prog = document.getElementById("program").value;
-        const target = instructorSelect.value;
-        const msg = document.getElementById("message").value;
+    inquiryForm.addEventListener("submit", async function(e) {
+        e.preventDefault(); 
 
-        const subject = encodeURIComponent(`Inquiry for Engineering Faculty: ${name}`);
-        const body = encodeURIComponent(`Student: ${name}\nProgram: ${prog}\n\nMessage:\n${msg}`);
+        const formData = {
+            studentId: localStorage.getItem('userId'), 
+            instructorId: instructorSelect.value,
+            fullName: document.getElementById("fullName").value,
+            program: document.getElementById("program").value,
+            message: document.getElementById("message").value
+        };
 
-        this.action = `mailto:${target}?subject=${subject}&body=${body}`;
+        try {
+            const response = await fetch('http://localhost:3000/api/inquiry', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                alert("Message sent successfully!");
+                inquiryForm.reset();
+            } else {
+                alert("Failed to send message.");
+            }
+        } catch (error) {
+            console.error("Connection Error:", error);
+            alert("Cannot connect to the server.");
+        }
     });
 });
