@@ -93,10 +93,13 @@ body {
     font-weight: bold;
 }
 
-.member-description {
+.member-bio {
     margin-top: 10px; 
     font-size: 0.85rem;
     opacity: 0.8;
+    text-align: justify;
+    text-justify: inter-word;
+    line-height: 1.6;
 }
 
 .btn-back-fixed {

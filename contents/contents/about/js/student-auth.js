@@ -4,18 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const student_number = document.getElementById('login-student_number').value;
-            const password = document.getElementById('login-password').value;
+    e.preventDefault();
+    
+    const student_number = document.getElementById('login-student_number').value;
+    const password = document.getElementById('login-password').value;
 
-            try {
-                const response = await fetch('http://localhost:5000/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ student_number, password, role: 'student' })
-                });
-
+    try {
+        const response = await fetch('http://localhost:5000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ student_number, password }) // These names MUST match the backend
+        });
                 const data = await response.json();
 
                 if (response.ok) {
@@ -27,39 +26,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert(data.error || "Login failed. Check your Student Number.");
                 }
             } catch (err) {
-                alert("Cannot connect to the authentication server.");
+                alert("Connection error.");
             }
         });
     }
 
     if (signupForm) {
         signupForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = {
-                first_name: document.getElementById('signup-firstname').value,
-                last_name: document.getElementById('signup-lastname').value,
-                student_number: document.getElementById('signup-student_number').value,
-                password: document.getElementById('signup-password').value
-            };
+    e.preventDefault();
 
-            try {
-                const response = await fetch('http://localhost:5000/api/signup/student', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ student_number: numberValue, password: passwordValue, role: 'student' })
-                });
+    const first_name = document.getElementById('signup-firstname').value;
+    const last_name = document.getElementById('signup-lastname').value;
+    const student_number = document.getElementById('signup-student_number').value;
+    const password = document.getElementById('signup-password').value;
 
-                if (response.ok) {
-                    alert("Student account created successfully!");
-                    showForm('login');
-                } else {
-                    const data = await response.json();
-                    alert(data.error || "Registration failed.");
-                }
-            } catch (err) {
-                alert("Server error during registration.");
-            }
+    try {
+        const response = await fetch('http://localhost:5000/api/signup/student', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                first_name, 
+                last_name, 
+                student_number, 
+                password 
+            })
         });
+
+        if (response.ok) {
+            alert("Student account created successfully!");
+            showForm('login');
+        } else {
+            const data = await response.json();
+            alert(data.error || "Registration failed.");
+        }
+    } catch (err) {
+        console.error("Fetch Error:", err);
+        alert("Server error during registration.");
+    }
+});
     }
 });
 
