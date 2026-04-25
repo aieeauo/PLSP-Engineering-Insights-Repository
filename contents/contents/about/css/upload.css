@@ -1,0 +1,207 @@
+:root {
+    --bg-dark: #0a1118;
+    --bg-gradient-teal: #0d252d;
+    --glass-card: rgba(28, 39, 47, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --accent-gold: #ffb703;
+    --text-main: #ffffff;
+    --text-dim: #8b9bb4;
+}
+
+body {
+    background: radial-gradient(circle at 10% 20%, rgba(255, 183, 3, 0.15) 0%, transparent 40%), 
+                linear-gradient(135deg, #023047 0%, #001219 100%);
+    background-attachment: fixed;
+    min-height: 110vh;
+    margin: 0;
+    color: white;
+
+    font-family: 'Inter', sans-serif;
+}
+
+.navbar {
+    padding: 2.5rem 0;
+    background: transparent !important;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.05em;
+}
+
+.text-dim { color: var(--text-dim); cursor: pointer; }
+.text-dim:hover { color: var(--text-main); }
+
+.btn-portalaccess {
+    background: #ffffff;
+    color: #000;
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 0.5rem 1.4rem;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.btn-portalaccess:hover {
+    background-color: transparent;
+    color: white;            
+    border: 2px solid white; 
+    transform: translateY(-2px); 
+}
+
+.admin-wrapper {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;    
+    justify-content: center; 
+    min-height: 90vh;      
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.admin-header-centered{
+    text-align: center;
+    margin-top: 10px; 
+    margin-bottom: 20px;
+}
+
+.upload-section {
+    background: var(--glass-card);
+    border: 1px solid var(--glass-border);
+    padding: 40px;
+    border-radius: 20px;
+    
+    width: 100%;
+    max-width: 600px; 
+    
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.drop-zone {
+    border: 2px dashed var(--glass-border);
+    padding: 40px;
+    text-align: center;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.drop-zone:hover {
+    border-color: var(--accent-gold);
+    background: rgba(255, 183, 3, 0.05);
+}
+
+.drop-zone i {
+    font-size: 3rem;
+    color: var(--accent-gold);
+    margin-bottom: 15px;
+}
+
+.drop-zone span {
+    color: var(--accent-gold);
+    text-decoration: underline;
+}
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    font-weight: 600;
+}
+
+textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    padding: 12px;
+    border-radius: 6px;
+    color: white;
+    font-family: inherit;
+    resize: none;
+}
+
+textarea:focus {
+    border-color: var(--accent-gold);
+    outline: none;
+}
+
+.btn-back {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--glass-border);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none; 
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s ease;
+    margin-top: 100px;
+    margin-bottom: 40px; 
+    margin-left: 20px;
+    align-self: flex-start; 
+    color: var(--accent-gold);
+}
+
+.btn-back:hover {
+    color: var(--accent-gold);
+    border-color: var(--accent-gold);
+    background: rgba(255, 183, 3, 0.05);
+    transform: translateX(-5px); 
+}
+
+.btn-back i {
+    font-size: 0.8rem;
+}
+
+.btn-publish {
+    background: var(--accent-gold);
+    color: #023047; 
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-publish:hover {
+    box-shadow: 0 0 20px rgba(255, 183, 3, 0.4);
+    transform: scale(1.02);
+}
+
+.btn-remove {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff4d4d;
+    border: 1px solid #ff4d4d;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+.btn-remove:hover {
+    background: #ff4d4d;
+    color: white;
+}
+
+#file-info i {
+    font-size: 3rem;
+}
