@@ -1,22 +1,46 @@
-const uploadForm = document.querySelector('form[action="repository.html"]');
+const uploadForm = document.querySelector('.upload-form');
+const fileInput = document.getElementById('file-upload');
+const dropZonePrompt = document.getElementById('drop-zone-prompt');
+const fileInfo = document.getElementById('file-info');
+const fileNameDisplay = document.getElementById('file-name');
+
+fileInput.addEventListener('change', function() {
+    if (this.files && this.files[0]) {
+        fileNameDisplay.textContent = this.files[0].name;
+        dropZonePrompt.style.display = 'none';
+        fileInfo.style.display = 'block';
+    }
+});
+
+window.clearFile = function(event) {
+    event.stopPropagation();
+    fileInput.value = '';
+    fileInfo.style.display = 'none';
+    dropZonePrompt.style.display = 'block';
+};
 
 uploadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('title', document.querySelector('input[placeholder*="e.g."]').value);
-    formData.append('resource_type', document.querySelector('.portal-select').value);
-    formData.append('description', document.querySelector('textarea').value);
-    formData.append('file', document.getElementById('file-upload').files[0]);
-    formData.append('uploaded_by_id', localStorage.getItem('userName'));
-    const userId = localStorage.getItem('userId');
+    const fullName = localStorage.getItem('userName'); 
 
-const formData = {
-    title: document.getElementById('title').value,
-    type: document.getElementById('type').value,
-    fileUrl: filePath, 
-    userId: userId 
-};
+    if (!fullName) {
+        alert("Session not found. Please log in again to verify your name.");
+        return;
+    }
+
+    if (!fileInput.files[0]) {
+        alert("Please select a file first.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('title', document.getElementById('resource-title').value);
+    formData.append('resource_type', document.getElementById('resource-type').value);
+    formData.append('description', document.getElementById('resource-desc').value || "No description");
+    formData.append('file', fileInput.files[0]);
+    
+    formData.append('uploaded_by_name', fullName); 
 
     try {
         const response = await fetch('http://localhost:5000/api/resources', {
@@ -25,12 +49,14 @@ const formData = {
         });
 
         if (response.ok) {
-            alert("Resource Published Successfully!");
+            alert(`Success! Published by ${fullName}`);
             window.location.href = 'library.html';
         } else {
-            alert("Error uploading file.");
+            const errorData = await response.json();
+            alert("Upload Failed: " + errorData.error);
         }
     } catch (err) {
-        console.error("Upload failed:", err);
+        console.error("Connection error:", err);
+        alert("Cannot connect to server.");
     }
 });

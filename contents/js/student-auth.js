@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('userRole', 'student');
                     localStorage.setItem('studentNumber', data.user.student_number);
                     localStorage.setItem('userName', `${data.user.first_name} ${data.user.last_name}`);
+                    alert("Login successful!");
                     window.location.href = 'index.html';
                 } else {
                     alert(data.error || "Login failed. Check your credentials.");

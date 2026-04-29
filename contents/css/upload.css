@@ -110,6 +110,14 @@ body {
     gap: 20px;
 }
 
+#drop-zone-prompt p span {
+    color: var(--accent-gold);
+    text-decoration: underline;
+    cursor: pointer;
+    position: relative; 
+    z-index: 10;          
+}
+
 .input-group {
     display: flex;
     flex-direction: column;

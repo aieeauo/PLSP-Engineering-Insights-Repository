@@ -1,18 +1,9 @@
 document.addEventListener("DOMContentLoaded", fetchResources);
 
-document.addEventListener('DOMContentLoaded', () => {
-    const userName = localStorage.getItem('userName');
-    if (userName) {
-        const welcomeElement = document.getElementById('user-name-display');
-        if (welcomeElement) welcomeElement.innerText = userName;
-    }
-});
-
 async function fetchResources() {
     try {
         const response = await fetch('http://localhost:5000/api/resources');
         const resources = await response.json();
-        
         const container = document.querySelector('.repo-grid');
         container.innerHTML = ''; 
 
@@ -20,25 +11,25 @@ async function fetchResources() {
             const card = document.createElement('div');
             card.className = `insight-card ${res.resource_type}`;
             
-            const icon = res.resource_type === 'pdf' ? 'fa-file-pdf' : 'fa-video';
+            const fileUrl = `http://localhost:5000${res.file_url}`;
             const actionBtn = res.resource_type === 'pdf' 
-                ? `<a href="http://localhost:5000${res.file_url}" class="btn-download" download>Download PDF</a>`
-                : `<button class="btn-watch" onclick="openVideo('http://localhost:5000${res.file_url}', '${res.title}')">Watch Lecture</button>`;
+                ? `<a href="${fileUrl}" class="btn-download" download>Download PDF</a>`
+                : `<button class="btn-watch" onclick="openVideo('${fileUrl}', '${res.title}')">Watch Lecture</button>`;
 
             card.innerHTML = `
-                <div class="card-icon"><i class="fa-solid ${icon}"></i></div>
+                <div class="card-icon"><i class="fa-solid ${res.resource_type === 'pdf' ? 'fa-file-pdf' : 'fa-video'}"></i></div>
                 <span class="card-tag">${res.resource_type.toUpperCase()}</span>
                 <h3>${res.title}</h3>
-                <p>${res.description || 'No description available.'}</p>
+                <p>${res.description || ''}</p>
                 <div class="card-footer">
-                    <span>By ${res.uploaded_by}</span>
+                    <span>By ${res.uploaded_by_name}</span>
                     ${actionBtn}
                 </div>
             `;
             container.appendChild(card);
         });
     } catch (err) {
-        console.error("Error loading repository:", err);
+        console.error("Repository fetch error:", err);
     }
 }
 
