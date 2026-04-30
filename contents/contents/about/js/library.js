@@ -6,33 +6,59 @@ async function loadLibrary() {
     try {
         const response = await fetch('http://localhost:5000/api/resources');
         const resources = await response.json();
-        const listContainer = document.querySelector('.library-list');
+        const listContainer = document.querySelector('.library-container'); 
         listContainer.innerHTML = ''; 
 
+        const currentUserName = localStorage.getItem('userName');
+
         resources.forEach(item => {
+            const isOwner = (item.uploaded_by_name === currentUserName);
             const row = document.createElement('div');
             row.className = 'library-item';
-            row.innerHTML = `
-                <div class="item-info">
-                    <i class="fa-solid ${item.resource_type === 'pdf' ? 'fa-file-pdf' : 'fa-video'}"></i>
-                    <div>
-                        <h4>${item.title}</h4>
-                        <span>Uploaded by ${item.uploaded_by} • ${new Date(item.created_at).toLocaleDateString()}</span>
-                    </div>
-                </div>
-                <div class="item-actions">
-                    <a href="edit.html?id=${item.resources_id}" class="btn-edit text-decoration-none">
-                        <i class="fa-solid fa-pen"></i> Edit
-                    </a>
-                    <button class="btn-delete" onclick="confirmDelete(this, ${item.resources_id})">
-                        <i class="fa-solid fa-trash"></i> Delete
-                    </button>
-                </div>
-            `;
+
+row.innerHTML = `
+    <div class="item-info">
+        <i class="fa-solid ${item.resource_type === 'pdf' ? 'fa-file-pdf' : 'fa-video'}"></i>
+        <div>
+            <h4>${item.title}</h4>
+            <span>Uploaded by ${item.uploaded_by_name} • ${new Date(item.created_at).toLocaleDateString()}</span>
+        </div>
+    </div>
+    <div class="item-actions">
+        ${isOwner ? `
+            <button class="btn-edit" onclick="window.location.href='edit.html?id=${item.resources_id}'">
+    <i class="fa-solid fa-pen"></i> Edit
+</button>
+            <button class="btn-delete" onclick=confirmDelete(${item.resources_id})">
+    <i class="fa-solid fa-trash"></i> Delete
+</button>
+        ` : ''}
+    </div>
+`;
             listContainer.appendChild(row);
         });
     } catch (err) {
         console.error("Library load error:", err);
+    }
+}
+
+async function confirmDelete(id) {
+    if (!confirm("Are you sure you want to delete this resource?")) return;
+    const userName = localStorage.getItem('userName');
+
+    try {
+        const response = await fetch(`http://localhost:5000/api/resources/${id}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userName }) 
+        });
+
+        if (response.ok) {
+            alert("Deleted successfully!");
+            loadLibrary(); 
+        }
+    } catch (err) {
+        console.error("Delete error:", err);
     }
 }
 

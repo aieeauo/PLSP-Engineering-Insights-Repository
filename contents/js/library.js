@@ -16,28 +16,25 @@ async function loadLibrary() {
             const row = document.createElement('div');
             row.className = 'library-item';
 
-            row.innerHTML = `
-                <div class="item-info">
-                    <i class="fa-solid ${item.resource_type === 'pdf' ? 'fa-file-pdf' : 'fa-video'}"></i>
-                    <div>
-                        <h4>${item.title}</h4>
-                        <span>Uploaded by ${item.uploaded_by_name} • ${new Date(item.created_at).toLocaleDateString()}</span>
-                    </div>
-                </div>
-                <div class="item-actions">
-                    <a href="http://localhost:5000${item.file_url}" target="_blank" class="btn-view text-decoration-none">
-                        <i class="fa-solid fa-eye"></i> View
-                    </a>
-                    ${isOwner ? `
-                        <a href="edit.html?id=${item.resources_id}" class="btn-edit text-decoration-none">
-                            <i class="fa-solid fa-pen"></i> Edit
-                        </a>
-                        <button class="btn-delete" onclick="confirmDelete(${item.resources_id})">
-                            <i class="fa-solid fa-trash"></i> Delete
-                        </button>
-                    ` : ''}
-                </div>
-            `;
+row.innerHTML = `
+    <div class="item-info">
+        <i class="fa-solid ${item.resource_type === 'pdf' ? 'fa-file-pdf' : 'fa-video'}"></i>
+        <div>
+            <h4>${item.title}</h4>
+            <span>Uploaded by ${item.uploaded_by_name} • ${new Date(item.created_at).toLocaleDateString()}</span>
+        </div>
+    </div>
+    <div class="item-actions">
+        ${isOwner ? `
+            <button class="btn-edit" onclick="window.location.href='edit.html?id=${item.resources_id}'">
+    <i class="fa-solid fa-pen"></i> Edit
+</button>
+            <button class="btn-delete" onclick=confirmDelete(${item.resources_id})">
+    <i class="fa-solid fa-trash"></i> Delete
+</button>
+        ` : ''}
+    </div>
+`;
             listContainer.appendChild(row);
         });
     } catch (err) {

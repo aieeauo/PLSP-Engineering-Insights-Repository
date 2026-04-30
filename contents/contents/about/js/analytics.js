@@ -1,16 +1,20 @@
 async function updateAnalytics() {
     try {
-        const response = await fetch('http://localhost:5000/api/analytics');
-        const data = await response.json();
-        
+        const response = await fetch('http://localhost:5000/api/resources');
+        const resources = await response.json();
+
+        const pdfCount = resources.filter(r => r.resource_type === 'pdf').length;
+        const videoCount = resources.filter(r => r.resource_type === 'video').length;
+        const totalCount = resources.length;
+
         if (document.getElementById('pdf-count')) {
-            document.getElementById('pdf-count').innerText = data.pdfCount;
+            document.getElementById('pdf-count').innerText = pdfCount;
         }
         if (document.getElementById('video-count')) {
-            document.getElementById('video-count').innerText = data.videoCount;
+            document.getElementById('video-count').innerText = videoCount;
         }
         if (document.getElementById('total-resources')) {
-            document.getElementById('total-resources').innerText = `${data.total}+`;
+            document.getElementById('total-resources').innerText = totalCount;
         }
     } catch (error) {
         console.error("Error fetching live analytics:", error);

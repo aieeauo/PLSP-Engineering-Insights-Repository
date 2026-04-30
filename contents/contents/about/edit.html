@@ -36,46 +36,23 @@
     </header>
 
     <section class="upload-section">
-        <form class="upload-form">
-            <div class="drop-zone" id="drop-zone">
-                <div id="drop-zone-prompt">
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                    <p>Drag and drop your file here or <span>Browse</span></p>
-                </div>
+<form id="editResourceForm">
+    <input type="hidden" id="resourceId">
     
-                <div id="file-info" style="display: none;">
-                    <i class="fa-solid fa-file-circle-check" style="color: var(--accent-gold);"></i>
-                    <p id="file-name" style="margin: 10px 0; font-weight: bold;"></p>
-                    <button type="button" onclick="clearFile(event)" class="btn-remove">Remove File</button>
-                </div>
-    
-                <input type="file" id="file-upload" hidden>
-            </div>
+    <input type="file" id="fileInput" style="display: none;">
+    <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
+        Drag and drop or <span class="text-warning">Browse</span>
+    </div>
 
-            <div class="form-grid">
-                <div class="input-group">
-                    <label>Resource Title</label>
-                    <input type="text" placeholder="e.g., Logic Circuit Design Part 1" required>
-                </div>
+    <input type="text" id="resourceTitle" class="form-control">
+    <select id="resourceType" class="form-control">
+        <option value="pdf">PDF Module</option>
+        <option value="video">Video Lecture</option>
+    </select>
+    <textarea id="resourceDescription" class="form-control"></textarea>
 
-                <div class="input-group">
-                    <label>Resource Type</label>
-                    <select class="portal-select">
-                        <option value="pdf">PDF Module</option>
-                        <option value="video">Video Lecture</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>Description</label>
-                    <textarea placeholder="Briefly describe the contents..." rows="4"></textarea>
-                </div>
-
-                <form action="library.html">
-                    <button type="submit" class="btn-publish" style="width: 100%;">Update Repository</button>
-                </form>
-            </div>
-        </form>
+    <button type="submit" class="btn-update">Update Repository</button>
+</form>
     </section>
 </main>
 

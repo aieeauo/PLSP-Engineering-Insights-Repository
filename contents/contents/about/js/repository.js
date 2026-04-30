@@ -1,44 +1,53 @@
-document.addEventListener("DOMContentLoaded", fetchResources);
+document.addEventListener("DOMContentLoaded", fetchRepositoryData);
 
-document.addEventListener('DOMContentLoaded', () => {
-    const userName = localStorage.getItem('userName');
-    if (userName) {
-        const welcomeElement = document.getElementById('user-name-display');
-        if (welcomeElement) welcomeElement.innerText = userName;
-    }
-});
+async function fetchRepositoryData() {
+    const container = document.getElementById('insightsGrid');
+    if (!container) return;
 
-async function fetchResources() {
     try {
         const response = await fetch('http://localhost:5000/api/resources');
         const resources = await response.json();
-        
-        const container = document.querySelector('.repo-grid');
+
         container.innerHTML = ''; 
 
-        resources.forEach(res => {
-            const card = document.createElement('div');
-            card.className = `insight-card ${res.resource_type}`;
-            
-            const icon = res.resource_type === 'pdf' ? 'fa-file-pdf' : 'fa-video';
-            const actionBtn = res.resource_type === 'pdf' 
-                ? `<a href="http://localhost:5000${res.file_url}" class="btn-download" download>Download PDF</a>`
-                : `<button class="btn-watch" onclick="openVideo('http://localhost:5000${res.file_url}', '${res.title}')">Watch Lecture</button>`;
+        if (resources.length === 0) {
+            container.innerHTML = '<p class="text-dim">No resources found in the repository.</p>';
+            return;
+        }
 
-            card.innerHTML = `
-                <div class="card-icon"><i class="fa-solid ${icon}"></i></div>
-                <span class="card-tag">${res.resource_type.toUpperCase()}</span>
-                <h3>${res.title}</h3>
-                <p>${res.description || 'No description available.'}</p>
-                <div class="card-footer">
-                    <span>By ${res.uploaded_by}</span>
-                    ${actionBtn}
-                </div>
-            `;
-            container.appendChild(card);
-        });
+        resources.forEach(res => {
+    const col = document.createElement('div');
+    col.className = "col-md-6 mb-4"; 
+
+    const isPdf = res.resource_type.toLowerCase() === 'pdf';
+    const badgeClass = isPdf ? 'card-tag' : 'card-tag video';
+    const iconClass = isPdf ? 'fa-microchip' : 'fa-play';
+    const fileUrl = `http://localhost:5000${res.file_url}`;
+
+    col.innerHTML = `
+        <div class="insight-card h-100"> 
+            <div class="${badgeClass}">${res.resource_type.toUpperCase()}</div>
+            <i class="fa-solid ${iconClass} card-main-icon"></i>
+            <h3>${res.title}</h3>
+            <p>${res.description || 'No description available.'}</p>
+            <div class="card-footer">
+                <span class="uploader-name">uploaded by ${res.uploaded_by_name}</span>
+                ${isPdf 
+                    ? `<a href="${fileUrl}" class="btn-download" download>
+                          <i class="fas fa-file-download"></i> Download
+                       </a>`
+                    : `<button class="btn-watch" onclick="openVideo('${fileUrl}', '${res.title.replace(/'/g, "\\'")}')">
+                          <i class="fa fa-play"></i> Watch Now
+                       </button>`
+                }
+            </div>
+        </div>
+    `;
+    container.appendChild(col);
+});
     } catch (err) {
-        console.error("Error loading repository:", err);
+        console.error("Fetch Error:", err);
+        container.innerHTML = `<p class="text-danger">Failed to load repository: ${err.message}</p>`;
     }
 }
 

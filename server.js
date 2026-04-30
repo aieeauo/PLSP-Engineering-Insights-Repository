@@ -156,41 +156,80 @@ app.get('/api/resources', async (req, res) => {
     }
 });
 
-app.put('/api/resources/:id', async (req, res) => {
+app.put('/api/resources/:id', upload.single('file'), async (req, res) => {
     const { id } = req.params;
-    const { title, resource_type, description, userName } = req.body;
-
+    const { title, description, resource_type, userName } = req.body;
+    
     try {
-        const result = await pool.query(
-            "UPDATE resources SET title = $1, resource_type = $2, description = $3 WHERE resources_id = $4 AND uploaded_by_name = $5",
-            [title, resource_type, description, id, userName]
-        );
+        let query = 'UPDATE resources SET title = $1, description = $2, resource_type = $3 WHERE resources_id = $4 AND uploaded_by_name = $5';
+        let params = [title, description, resource_type, id, userName];
 
-        if (result.rowCount === 0) {
-            return res.status(403).json({ error: "Update failed." });
+        if (req.file) {
+            const fileUrl = `/resources/${req.file.filename}`;
+            query = 'UPDATE resources SET title = $1, description = $2, resource_type = $3, file_url = $6 WHERE resources_id = $4 AND uploaded_by_name = $5';
+            params.push(fileUrl);
         }
-        res.json({ message: "Update successful" });
+
+        const result = await pool.query(query, params);
+        
+        if (result.rowCount === 0) {
+            return res.status(403).json({ error: "Unauthorized or resource not found" });
+        }
+
+        res.json({ message: "Updated successfully" });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
 app.delete('/api/resources/:id', async (req, res) => {
-    const { id } = req.params;
+    const resourceId = req.params.id;
     const { userName } = req.body; 
 
     try {
-        const result = await pool.query(
-            "DELETE FROM resources WHERE resources_id = $1 AND uploaded_by_name = $2",
-            [id, userName]
-        );
+        const checkResult = await pool.query("SELECT uploaded_by_name FROM resources WHERE resources_id = $1", [resourceId]);
+        
+        if (checkResult.rows.length === 0) return res.status(404).json({ error: "Resource not found" });
 
-        if (result.rowCount === 0) {
-            return res.status(403).json({ error: "Unauthorized or record not found." });
+        if (checkResult.rows[0].uploaded_by_name !== userName) {
+            return res.status(403).json({ error: "Unauthorized: You can only delete your own uploads." });
         }
 
-        res.json({ message: "Deleted successfully" });
+        await pool.query("DELETE FROM resources WHERE resources_id = $1", [resourceId]);
+        res.json({ message: "Resource deleted successfully" });
     } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/api/resources/latest', async (req, res) => {
+    const query = `
+        (SELECT * FROM resources WHERE resource_type = 'pdf' ORDER BY created_at DESC LIMIT 1)
+        UNION ALL
+        (SELECT * FROM resources WHERE resource_type = 'video' ORDER BY created_at DESC LIMIT 1)
+    `;
+
+    try {
+        const result = await pool.query(query);
+        const response = {
+            latestPdf: result.rows.find(r => r.resource_type === 'pdf') || null,
+            latestVideo: result.rows.find(r => r.resource_type === 'video') || null
+        };
+        res.json(response);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/api/resources', async (req, res) => {
+    try {
+        const sql = "SELECT resources_id, title, resource_type, description, file_url, uploaded_by_name, created_at FROM resources ORDER BY created_at DESC";
+        const result = await pool.query(sql);
+        
+        res.json(result.rows);
+    } catch (err) {
+        console.error("Fetch Error:", err.message);
         res.status(500).json({ error: err.message });
     }
 });
