@@ -27,11 +27,11 @@ row.innerHTML = `
     <div class="item-actions">
         ${isOwner ? `
             <button class="btn-edit" onclick="window.location.href='edit.html?id=${item.resources_id}'">
-    <i class="fa-solid fa-pen"></i> Edit
-</button>
-            <button class="btn-delete" onclick=confirmDelete(${item.resources_id})">
-    <i class="fa-solid fa-trash"></i> Delete
-</button>
+                <i class="fa-solid fa-pen"></i> Edit
+            </button>
+            <button class="btn-delete" onclick="confirmDelete(${item.resources_id})">
+                <i class="fa-solid fa-trash"></i> Delete
+            </button>
         ` : ''}
     </div>
 `;
@@ -43,22 +43,23 @@ row.innerHTML = `
 }
 
 async function confirmDelete(id) {
-    if (!confirm("Are you sure you want to delete this resource?")) return;
-    const userName = localStorage.getItem('userName');
+    if (!confirm("Are you sure you want to delete this resource? This will permanently remove the file from the server.")) return;
 
     try {
         const response = await fetch(`http://localhost:5000/api/resources/${id}`, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userName }) 
+            method: 'DELETE'
         });
 
         if (response.ok) {
             alert("Deleted successfully!");
             loadLibrary(); 
+        } else {
+            const errorData = await response.json();
+            alert("Error: " + errorData.error);
         }
     } catch (err) {
         console.error("Delete error:", err);
+        alert("Failed to connect to the server.");
     }
 }
 

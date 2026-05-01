@@ -16,7 +16,18 @@ if (!fs.existsSync('./resources')){
     fs.mkdirSync('./resources');
 }
 
-app.use(cors());
+const GLOBAL_MAX = 500 * 1024 * 1024; 
+
+const upload = multer({ 
+    storage: storage,
+    limits: { fileSize: GLOBAL_MAX } 
+});
+
+app.use(cors({
+    origin: 'http://127.0.0.1:5500', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type']
+}));
 app.use(express.json());
 
 const path = require('path');
@@ -120,7 +131,40 @@ app.post('/api/login/instructor', async (req, res) => {
     }
 });
 
-app.post('/api/resources', upload.single('file'), async (req, res) => {
+app.post('/api/resources', (req, res) => {
+    upload.single('file')(req, res, async (err) => {
+        if (err instanceof multer.MulterError) {
+            if (err.code === 'LIMIT_FILE_SIZE') {
+                return res.status(400).json({ error: "File exceeds the 500MB maximum system limit." });
+            }
+            return res.status(400).json({ error: err.message });
+        }
+
+        if (!req.file) return res.status(400).json({ error: "No file uploaded." });
+
+        const PDF_LIMIT = 25 * 1024 * 1024;   
+        const VIDEO_LIMIT = 500 * 1024 * 1024; 
+        
+        const fileExt = path.extname(req.file.originalname).toLowerCase();
+        const fileSize = req.file.size;
+
+        let isInvalid = false;
+        let errorMessage = "";
+
+        if (fileExt === '.pdf' && fileSize > PDF_LIMIT) {
+            isInvalid = true;
+            errorMessage = "PDF modules must be under 25MB.";
+        } 
+        else if (['.mp4', '.mkv', '.mov'].includes(fileExt) && fileSize > VIDEO_LIMIT) {
+            isInvalid = true;
+            errorMessage = "Video files must be under 500MB.";
+        }
+
+        if (isInvalid) {
+            fs.unlinkSync(req.file.path); 
+            return res.status(400).json({ error: errorMessage });
+        }
+        
     try {
         const { title, resource_type, description, uploaded_by_name } = req.body;
         const db_path = req.file ? `/resources/${req.file.filename}` : null;
@@ -144,6 +188,7 @@ app.post('/api/resources', upload.single('file'), async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+});
 
 app.use('/resources', express.static(path.join(__dirname, 'resources')));
 
@@ -156,47 +201,82 @@ app.get('/api/resources', async (req, res) => {
     }
 });
 
-app.put('/api/resources/:id', upload.single('file'), async (req, res) => {
+app.put('/api/resources/:id', (req, res) => {
+    upload.single('file')(req, res, async (err) => {
+        if (err instanceof multer.MulterError) {
+            if (err.code === 'LIMIT_FILE_SIZE') {
+                return res.status(400).json({ error: "Update failed: New file exceeds 100MB limit." });
+            }
+            return res.status(400).json({ error: err.message });
+        }
+
     const { id } = req.params;
-    const { title, description, resource_type, userName } = req.body;
+    const { title, description, resource_type, userName, removeFile } = req.body;
     
     try {
-        let query = 'UPDATE resources SET title = $1, description = $2, resource_type = $3 WHERE resources_id = $4 AND uploaded_by_name = $5';
-        let params = [title, description, resource_type, id, userName];
+        const currentData = await pool.query('SELECT file_url FROM resources WHERE resources_id = $1', [id]);
+        if (currentData.rows.length === 0) {
+            return res.status(404).json({ error: "Resource not found" });
+        }
+        const oldFileUrl = currentData.rows[0].file_url;
+
+        let query = `
+            UPDATE resources 
+            SET title = $1, description = $2, resource_type = $3 
+            WHERE resources_id = $4`;
+        let params = [title, description, resource_type, id];
+        let shouldDeleteOldFile = false;
 
         if (req.file) {
-            const fileUrl = `/resources/${req.file.filename}`;
-            query = 'UPDATE resources SET title = $1, description = $2, resource_type = $3, file_url = $6 WHERE resources_id = $4 AND uploaded_by_name = $5';
-            params.push(fileUrl);
+            const newFileUrl = `/resources/${req.file.filename}`;
+            query = `UPDATE resources SET title = $1, description = $2, resource_type = $3, file_url = $5 WHERE resources_id = $4`;
+            params.push(newFileUrl);
+            shouldDeleteOldFile = true;
+        } else if (removeFile === 'true') {
+            query = `UPDATE resources SET title = $1, description = $2, resource_type = $3, file_url = NULL WHERE resources_id = $4`;
+            shouldDeleteOldFile = true;
         }
 
         const result = await pool.query(query, params);
-        
-        if (result.rowCount === 0) {
-            return res.status(403).json({ error: "Unauthorized or resource not found" });
+
+        if (shouldDeleteOldFile && oldFileUrl) {
+            const filePathOnDisk = path.join(__dirname, oldFileUrl); 
+            
+            fs.unlink(filePathOnDisk, (err) => {
+                if (err) console.error(`Failed to delete old file: ${filePathOnDisk}`, err);
+                else console.log(`Successfully deleted old file: ${filePathOnDisk}`);
+            });
         }
 
-        res.json({ message: "Updated successfully" });
+        res.json({ message: "Updated successfully and storage cleaned!" });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error(err.message);
+        res.status(500).json({ error: "Server error during update" });
     }
+});
 });
 
 app.delete('/api/resources/:id', async (req, res) => {
-    const resourceId = req.params.id;
-    const { userName } = req.body; 
+    const { id } = req.params;
 
     try {
-        const checkResult = await pool.query("SELECT uploaded_by_name FROM resources WHERE resources_id = $1", [resourceId]);
+        const result = await pool.query('SELECT file_url FROM resources WHERE resources_id = $1', [id]);
         
-        if (checkResult.rows.length === 0) return res.status(404).json({ error: "Resource not found" });
+        if (result.rows.length > 0) {
+            const fileUrl = result.rows[0].file_url;
 
-        if (checkResult.rows[0].uploaded_by_name !== userName) {
-            return res.status(403).json({ error: "Unauthorized: You can only delete your own uploads." });
+            await pool.query('DELETE FROM resources WHERE resources_id = $1', [id]);
+
+            if (fileUrl) {
+                const filePath = path.join(__dirname, fileUrl);
+                fs.unlink(filePath, (err) => {
+                    if (err) console.error("Error deleting file during resource removal:", err);
+                });
+            }
+            res.json({ message: "Resource and file deleted successfully" });
+        } else {
+            res.status(404).json({ error: "Resource not found" });
         }
-
-        await pool.query("DELETE FROM resources WHERE resources_id = $1", [resourceId]);
-        res.json({ message: "Resource deleted successfully" });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
