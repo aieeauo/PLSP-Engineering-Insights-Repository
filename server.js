@@ -10,11 +10,6 @@ const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, 'resources'),
     filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
 });
-const upload = multer({ storage: storage });
-
-if (!fs.existsSync('./resources')){
-    fs.mkdirSync('./resources');
-}
 
 const GLOBAL_MAX = 500 * 1024 * 1024; 
 
@@ -22,6 +17,10 @@ const upload = multer({
     storage: storage,
     limits: { fileSize: GLOBAL_MAX } 
 });
+
+if (!fs.existsSync('./resources')){
+    fs.mkdirSync('./resources');
+}
 
 app.use(cors({
     origin: 'http://127.0.0.1:5500', 

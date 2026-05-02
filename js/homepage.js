@@ -36,7 +36,7 @@ function openVideo(videoSrc, videoTitle) {
         }
     } else {
         alert("Access Restricted: Please log in to watch lecture videos.");
-        window.location.href = 'portalaccess.html';
+        window.location.href = 'contents/portalaccess.html';
     }
 }
 
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (userRole === 'guest') {
                 e.preventDefault();
                 alert("Access Restricted: Please log in to download the modules.");
-                window.location.href = 'portalaccess.html';
+                window.location.href = 'contents/portalaccess.html';
             }
         });
     });

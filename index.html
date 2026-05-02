@@ -45,7 +45,7 @@
             </p>
 
             <div class="d-flex gap-3">
-                <a href="contents/repository.html" class="btn-gold-custom">
+                <a href="contents\repository.html" class="btn-gold-custom">
                     Explore the Repository
                 </a>
             </div>
@@ -88,7 +88,8 @@
                     <span class="resource-badge badge-video">LATEST VIDEO</span>
                     <h3 class="resource-title mt-3" id="latest-video-title">Loading...</h3>
                     <p class="resource-text" id="latest-video-desc">Fetching the newest lecture from the repository.</p>
-                    <button class="btn-watch" id="latest-video-link">
+                    <button class="btn-watch" 
+                        onclick="openVideo('videos/verilog-lesson.mp4', 'Verilog HDL Basics')">
                         <i class="fa fa-play"></i> Watch Featured Lesson
                     </button>
                 </div>
