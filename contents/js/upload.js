@@ -43,7 +43,7 @@ uploadForm.addEventListener('submit', async (e) => {
     formData.append('uploaded_by_name', fullName); 
 
     try {
-        const response = await fetch('http://localhost:5000/api/resources', {
+        const response = await fetch('https://plsp-engg-insights-repository.onrender.com/api/resources', {
             method: 'POST',
             body: formData 
         });

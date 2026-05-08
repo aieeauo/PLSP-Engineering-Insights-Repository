@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if(idField) idField.value = id;
 
     try {
-        const response = await fetch(`http://localhost:5000/api/resources`);
+        const response = await fetch(`https://plsp-engg-insights-repository.onrender.com/api/resources`);
         const resources = await response.json();
         const item = resources.find(r => r.resources_id == id);
 
@@ -106,7 +106,7 @@ document.getElementById('editResourceForm').addEventListener('submit', async (e)
     }
 
     try {
-        const response = await fetch(`http://localhost:5000/api/resources/${id}`, {
+        const response = await fetch(`https://plsp-engg-insights-repository.onrender.com/api/resources/${id}`, {
             method: 'PUT',
             body: formData 
         });

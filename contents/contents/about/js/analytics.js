@@ -1,6 +1,6 @@
 async function updateAnalytics() {
     try {
-        const response = await fetch('http://localhost:5000/api/resources');
+        const response = await fetch('https://plsp-engg-insights-repository.onrender.com/api/resources');
         const resources = await response.json();
 
         const pdfCount = resources.filter(r => r.resource_type === 'pdf').length;

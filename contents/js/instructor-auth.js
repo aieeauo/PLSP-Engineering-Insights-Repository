@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = loginForm.querySelector('#login-password').value;
 
 try {
-    const response = await fetch('http://localhost:5000/api/login/instructor', {
+    const response = await fetch('https://plsp-engg-insights-repository.onrender.com/api/login/instructor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email_address, password }) 
@@ -42,7 +42,7 @@ try {
     const password = document.getElementById('signup-password').value;
 
     try {
-        const response = await fetch('http://localhost:5000/api/signup/instructor', {
+        const response = await fetch('https://plsp-engg-insights-repository.onrender.com/api/signup/instructor', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 

@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", loadLibrary);
 
 async function loadLibrary() {
     try {
-        const response = await fetch('http://localhost:5000/api/resources');
+        const response = await fetch('https://plsp-engg-insights-repository.onrender.com/api/resources');
         const resources = await response.json();
         const listContainer = document.querySelector('.library-container'); 
         listContainer.innerHTML = ''; 
@@ -46,7 +46,7 @@ async function confirmDelete(id) {
     if (!confirm("Are you sure you want to delete this resource? This will permanently remove the file from the server.")) return;
 
     try {
-        const response = await fetch(`http://localhost:5000/api/resources/${id}`, {
+        const response = await fetch(`https://plsp-engg-insights-repository.onrender.com/api/resources/${id}`, {
             method: 'DELETE'
         });
 

@@ -1,6 +1,6 @@
 async function automateLatestResources() {
     try {
-        const response = await fetch('http://localhost:5000/api/resources/latest');
+        const response = await fetch('https://plsp-engg-insights-repository.onrender.com/api/resources/latest');
         const data = await response.json();
 
         const videoTitle = document.getElementById('latest-video-title');
@@ -9,7 +9,7 @@ async function automateLatestResources() {
 
         if (data.latestVideo) {
             const videoTitle = data.latestVideo.title;
-            const videoUrl = `http://localhost:5000${data.latestVideo.file_url}`; 
+            const videoUrl = `https://plsp-engg-insights-repository.onrender.com${data.latestVideo.file_url}`; 
     
             document.getElementById('latest-video-title').innerText = videoTitle;
             document.getElementById('latest-video-desc').innerText = data.latestVideo.description;
@@ -28,7 +28,7 @@ async function automateLatestResources() {
         if (data.latestPdf) {
             pdfTitle.innerText = data.latestPdf.title;
             pdfDesc.innerText = data.latestPdf.description || "New PDF module available.";
-            if (pdfLink) pdfLink.href = `http://localhost:5000${data.latestPdf.file_url}`;
+            if (pdfLink) pdfLink.href = `https://plsp-engg-insights-repository.onrender.com${data.latestPdf.file_url}`;
         } else {
             pdfTitle.innerText = "No Modules Yet";
             pdfDesc.innerText = "Check back soon for new PDF modules.";

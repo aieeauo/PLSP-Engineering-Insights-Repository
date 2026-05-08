@@ -12,7 +12,7 @@ async function fetchRepositoryData() {
     container.className = "row justify-content-center";
 
     try {
-        const response = await fetch('http://localhost:5000/api/resources');
+        const response = await fetch('https://plsp-engg-insights-repository.onrender.com/api/resources');
         allResources = await response.json(); 
         filteredResources = [...allResources];
 
@@ -45,7 +45,7 @@ function displayPage(page) {
         const badgeClass = isPdf ? 'card-tag' : 'card-tag video';
         const iconClass = isPdf ? 'fa-microchip' : 'fa-play';
         const cleanPath = res.file_url.startsWith('/') ? res.file_url : `/${res.file_url}`;
-        const fileUrl = `http://localhost:5000${cleanPath}`;
+        const fileUrl = `https://plsp-engg-insights-repository.onrender.com${cleanPath}`;
 
         col.innerHTML = `
             <div class="insight-card h-100 d-flex flex-column"> 
