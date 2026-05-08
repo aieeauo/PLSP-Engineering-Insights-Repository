@@ -9,13 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
 const video = document.getElementById('modalVideoPlayer');
 const timeDisplay = document.getElementById('videoTime');
 
-const myModalEl = document.getElementById('videoModal');
-if (myModalEl) {
-    myModalEl.addEventListener('hidden.bs.modal', function () {
-        stopVideo();
-    });
-}
-
 function openVideo(videoSrc, videoTitle) {
     const userRole = localStorage.getItem('userRole');
 
@@ -67,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (userRole === 'guest') {
                 e.preventDefault();
                 alert("Access Restricted: Please log in to download the modules.");
-                window.location.href = 'contents/portalaccess.html';
+                window.location.href = 'portalaccess.html';
             }
         });
     });
