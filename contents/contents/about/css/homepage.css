@@ -202,7 +202,7 @@ h1.display-title {
     background: #ffb703;
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: black;
-    padding: 12px 20px;
+    padding: 10px 20px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 700;
@@ -214,7 +214,7 @@ h1.display-title {
     background: #ffb703;
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: black;
-    padding: 9px 20px;
+    padding: 10px 20px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 700;
@@ -242,32 +242,20 @@ h1.display-title {
 
 .video-container { position: relative; width: 100%; }
 
-.custom-controls-pill {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    background: rgba(20, 20, 20, 0.85);
-    backdrop-filter: blur(10px);
-    padding: 10px 25px;
-    border-radius: 50px; 
+.glass-card-resource .card-body {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    opacity: 0;
-    transition: 0.3s ease;
+    flex-direction: column;
+    height: 100%;
 }
 
-.video-container:hover .custom-controls-pill { opacity: 1; }
-
-.player-btn {
-    background: none; border: none;
-    color: white; font-size: 1.1rem;
-    cursor: pointer; margin: 0 10px;
+.glass-card-resource .btn-watch, 
+.glass-card-resource .btn-download {
+    margin-top: auto; 
+    align-self: flex-start; 
+    width: fit-content; 
 }
 
-.player-btn:hover { color: #ffb703; }
-.time-text { color: white; font-size: 0.85rem; }
-.speed-text { font-weight: bold; font-size: 0.9rem; min-width: 35px; }
+.resource-text {
+    margin-bottom: 1.5rem;
+    flex-grow: 1; 
+}

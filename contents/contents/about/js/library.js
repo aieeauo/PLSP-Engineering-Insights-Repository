@@ -21,7 +21,7 @@ row.innerHTML = `
         <i class="fa-solid ${item.resource_type === 'pdf' ? 'fa-file-pdf' : 'fa-video'}"></i>
         <div>
             <h4>${item.title}</h4>
-            <span>Uploaded by ${item.uploaded_by_name} • ${new Date(item.created_at).toLocaleDateString()}</span>
+            <span>uploaded by ${item.uploaded_by_name} • ${new Date(item.created_at).toLocaleDateString()}</span>
         </div>
     </div>
     <div class="item-actions">

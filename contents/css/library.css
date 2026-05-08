@@ -146,23 +146,23 @@ color: #fff;
 }
 
 .btn-back {
-background: transparent;
-color: var(--text-dim);
-border: 1px solid var(--glass-border);
-padding: 8px 16px;
-border-radius: 6px;
-font-size: 0.9rem;
-cursor: pointer;
-text-decoration: none; 
-display: inline-flex;
-align-items: center;
-gap: 8px;
-transition: 0.3s ease;
-margin-top: 220px;
-margin-bottom: 40px; 
-margin-left: 20px;
-align-self: flex-start; 
-color: var(--accent-gold);
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--glass-border);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none; 
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s ease;
+    margin-top: 0%;
+    margin-bottom: 40px; 
+    margin-left: 8%;
+    align-self: flex-start; 
+    color: var(--accent-gold);
 }
 
 .btn-back:hover {

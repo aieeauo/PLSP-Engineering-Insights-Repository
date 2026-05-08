@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const response = await fetch('http://localhost:5000/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ student_number, password }) // These names MUST match the backend
+            body: JSON.stringify({ student_number, password }) 
         });
                 const data = await response.json();
 
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('studentNumber', data.user.student_number);
                     localStorage.setItem('userName', `${data.user.first_name} ${data.user.last_name}`);
                     alert("Login successful!");
-                    window.location.href = 'repository.html';
+                    window.location.href = 'index.html';
                 } else {
                     alert(data.error || "Login failed. Check your Student Number.");
                 }

@@ -150,9 +150,9 @@ textarea:focus {
     align-items: center;
     gap: 8px;
     transition: 0.3s ease;
-    margin-top: 100px;
+    margin-top: 0%;
     margin-bottom: 40px; 
-    margin-left: 20px;
+    margin-left: 8%;
     align-self: flex-start; 
     color: var(--accent-gold);
 }
@@ -204,4 +204,16 @@ textarea:focus {
 
 #file-info i {
     font-size: 3rem;
+}
+
+.text-warning {
+    transition: 0.2s ease-in-out;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.text-warning:hover {
+    background-color: rgba(255, 183, 3, 0.1); 
+    text-shadow: 0 0 8px rgba(255, 183, 3, 0.5);
+    color: #ffcc33 !important;
 }

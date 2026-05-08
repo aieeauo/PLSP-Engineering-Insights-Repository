@@ -53,8 +53,13 @@
 
                 <div id="file-upload-state" class="text-center">
                     <i class="fa-solid fa-cloud-arrow-up text-dim mb-3" style="font-size: 2.5rem;"></i>
-                    <p class="text-dim">Drag and drop your file here or <span class="text-warning">Browse</span></p>
-                    <input type="file" id="FileInput" name="file" accept=".pdf, .mp4, .mkv, .mov">
+                    <p class="text-dim">
+                        Drag and drop your file here or 
+                        <label for="fileInput" class="text-warning" style="cursor: pointer; text-decoration: underline;">
+                            Browse
+                        </label>
+                        <input type="file" id="fileInput" name="file" accept=".pdf, .mp4, .mkv, .mov" style="display: none;">
+                    </p>
                     <small>Allowed: PDF (25MB), Video (500MB)</small>
                 </div>
             </div>

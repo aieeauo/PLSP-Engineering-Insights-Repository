@@ -60,3 +60,28 @@ uploadForm.addEventListener('submit', async (e) => {
         alert("Cannot connect to server.");
     }
 });
+
+fileInput.addEventListener('change', function() {
+    const file = this.files[0];
+    if (!file) return;
+
+    const fileSizeMB = file.size / (1024 * 1024);
+    const fileType = file.type;
+    const resourceType = document.getElementById('resource-type').value;
+
+    if (resourceType === 'pdf' && fileSizeMB > 25) {
+        alert("The PDF is too large. Max limit is 25MB.");
+        this.value = ""; 
+        return;
+    }
+    
+    if (resourceType === 'video' && fileSizeMB > 500) {
+        alert("The video is too large. Max limit is 500MB.");
+        this.value = "";
+        return;
+    }
+
+    fileNameDisplay.textContent = file.name;
+    dropZonePrompt.style.display = 'none';
+    fileInfo.style.display = 'block';
+});

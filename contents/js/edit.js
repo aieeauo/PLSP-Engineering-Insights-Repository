@@ -56,28 +56,26 @@ function removeExistingFile(event) {
     document.getElementById('fileInput').value = ''; 
 }
 
-function handleFileSelection(input) {
-    const file = input.files[0];
-    if (!file) return;
+function handleNewFileSelected(input) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const fileSizeMB = file.size / (1024 * 1024);
+        const resourceType = document.getElementById('resourceType').value;
 
-    const fileType = file.type; 
-    const fileSizeMB = file.size / (1024 * 1024);
+        if (resourceType === 'pdf' && fileSizeMB > 25) {
+            alert(`PDF too large (${fileSizeMB.toFixed(1)}MB). Max 25MB.`);
+            input.value = '';
+            return;
+        }
+        if (resourceType === 'video' && fileSizeMB > 500) {
+            alert(`Video too large (${fileSizeMB.toFixed(1)}MB). Max 500MB.`);
+            input.value = '';
+            return;
+        }
 
-    let limit = 0;
-    let typeLabel = "";
-
-    if (fileType === 'application/pdf') {
-        limit = 25; 
-        typeLabel = "PDF";
-    } else if (fileType.startsWith('video/')) {
-        limit = 500;
-        typeLabel = "Video";
-    }
-
-    if (limit > 0 && fileSizeMB > limit) {
-        alert(`The ${typeLabel} is too large (${fileSizeMB.toFixed(1)}MB). Max limit for ${typeLabel}s is ${limit}MB.`);
-        input.value = ""; 
-        return;
+        document.getElementById('preview-file-name').innerText = file.name;
+        document.getElementById('file-upload-state').style.display = 'none';
+        document.getElementById('file-preview-state').style.display = 'block';
     }
 }
 

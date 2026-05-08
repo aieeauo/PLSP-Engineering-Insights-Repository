@@ -33,7 +33,7 @@
     <main class="repo-container container mt-5">
         <header class="repo-header text-center mb-5">
             <h1>Engineering Insights</h1>
-            <p class="text-dim">Your central hub for PLSP Engineering resources and modules.</p>
+            <p>Your central hub for PLSP Engineering resources and modules.</p>
             
             <div class="search-section">
     <div class="search-bar-container">
@@ -45,13 +45,19 @@
         
         <select id="resourceFilter" class="filter-dropdown" onchange="filterResources()">
             <option value="all">All Resources</option>
-            <option value="Video">Videos</option>
-            <option value="PDF">PDFs</option>
+            <option value="video">Videos</option>
+            <option value="pdf">PDFs</option>
         </select>
     </div>
 </div>
 
-            <div class="insights-grid" id="insightsGrid"> </div>
+            <div class="container mt-4">
+                <div class="row justify-content-center" id="insightsGrid"></div>
+            </div>
+            <div class="pagination-container mt-5">
+                <div id="paginationButtons" class="pagination-wrapper">
+                </div>
+            </div>
         </header>
 
 <div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
@@ -65,24 +71,8 @@
             <div class="modal-body p-0">
                 <div class="video-container">
                     <div class="ratio ratio-16x9">
-                        <video id="modalVideoPlayer">
-                            <source src="" type="video/mp4">
+                        <video id="modalVideoPlayer" controls>
                         </video>
-                    </div>
-
-                    <div class="custom-controls-pill">
-                        <div class="ctrl-left">
-                            <button class="player-btn" onclick="togglePlay()">
-                                <i class="fas fa-play" id="playBtn"></i>
-                            </button>
-                            <span id="videoTime" class="time-text">0:00 / 0:00</span>
-                        </div>
-                        
-                        <div class="ctrl-right">
-                            <button class="player-btn" onclick="toggleMute()"><i class="fas fa-volume-up" id="volBtn"></i></button>
-                            <button class="player-btn speed-text" onclick="changeSpeed()" id="speedBtn">1x</button>
-                            <button class="player-btn" onclick="toggleFullScreen()"><i class="fas fa-expand"></i></button>
-                        </div>
                     </div>
                 </div>
             </div>

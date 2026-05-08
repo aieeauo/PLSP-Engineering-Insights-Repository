@@ -122,24 +122,8 @@
             <div class="modal-body p-0">
                 <div class="video-container">
                     <div class="ratio ratio-16x9">
-                        <video id="modalVideoPlayer">
-                            <source src="" type="video/mp4">
+                        <video id="modalVideoPlayer" controls>
                         </video>
-                    </div>
-
-                    <div class="custom-controls-pill">
-                        <div class="ctrl-left">
-                            <button class="player-btn" onclick="togglePlay()">
-                                <i class="fas fa-play" id="playBtn"></i>
-                            </button>
-                            <span id="videoTime" class="time-text">0:00 / 0:00</span>
-                        </div>
-                        
-                        <div class="ctrl-right">
-                            <button class="player-btn" onclick="toggleMute()"><i class="fas fa-volume-up" id="volBtn"></i></button>
-                            <button class="player-btn speed-text" onclick="changeSpeed()" id="speedBtn">1x</button>
-                            <button class="player-btn" onclick="toggleFullScreen()"><i class="fas fa-expand"></i></button>
-                        </div>
                     </div>
                 </div>
             </div>

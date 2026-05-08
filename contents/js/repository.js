@@ -1,79 +1,150 @@
+let allResources = []; 
+let filteredResources = [];
+let currentPage = 1;
+const itemsPerPage = 10;
+
 document.addEventListener("DOMContentLoaded", fetchRepositoryData);
 
 async function fetchRepositoryData() {
     const container = document.getElementById('insightsGrid');
     if (!container) return;
 
+    container.className = "row justify-content-center";
+
     try {
         const response = await fetch('http://localhost:5000/api/resources');
-        const resources = await response.json();
+        allResources = await response.json(); 
+        filteredResources = [...allResources];
 
-        container.innerHTML = ''; 
-
-        if (resources.length === 0) {
+        if (allResources.length === 0) {
             container.innerHTML = '<p class="text-dim">No resources found in the repository.</p>';
             return;
         }
 
-        resources.forEach(res => {
-    const col = document.createElement('div');
-    col.className = "col-md-6 mb-4"; 
-
-    const isPdf = res.resource_type.toLowerCase() === 'pdf';
-    const badgeClass = isPdf ? 'card-tag' : 'card-tag video';
-    const iconClass = isPdf ? 'fa-microchip' : 'fa-play';
-    const fileUrl = `http://localhost:5000${res.file_url}`;
-
-    col.innerHTML = `
-        <div class="insight-card h-100"> 
-            <div class="${badgeClass}">${res.resource_type.toUpperCase()}</div>
-            <i class="fa-solid ${iconClass} card-main-icon"></i>
-            <h3>${res.title}</h3>
-            <p>${res.description || 'No description available.'}</p>
-            <div class="card-footer">
-                <span class="uploader-name">uploaded by ${res.uploaded_by_name}</span>
-                ${isPdf 
-                    ? `<a href="${fileUrl}" class="btn-download" download>
-                          <i class="fas fa-file-download"></i> Download
-                       </a>`
-                    : `<button class="btn-watch" onclick="openVideo('${fileUrl}', '${res.title.replace(/'/g, "\\'")}')">
-                          <i class="fa fa-play"></i> Watch Now
-                       </button>`
-                }
-            </div>
-        </div>
-    `;
-    container.appendChild(col);
-});
+        displayPage(1); 
     } catch (err) {
         console.error("Fetch Error:", err);
         container.innerHTML = `<p class="text-danger">Failed to load repository: ${err.message}</p>`;
     }
 }
 
+function displayPage(page) {
+    const container = document.getElementById('insightsGrid');
+    container.innerHTML = ''; 
+    currentPage = page;
+
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginatedItems = filteredResources.slice(start, end);
+
+    paginatedItems.forEach(res => {
+        const col = document.createElement('div');
+        col.className = "col-md-6 col-12 mb-4"; 
+
+        const isPdf = res.resource_type.toLowerCase() === 'pdf';
+        const badgeClass = isPdf ? 'card-tag' : 'card-tag video';
+        const iconClass = isPdf ? 'fa-microchip' : 'fa-play';
+        const cleanPath = res.file_url.startsWith('/') ? res.file_url : `/${res.file_url}`;
+        const fileUrl = `http://localhost:5000${cleanPath}`;
+
+        col.innerHTML = `
+            <div class="insight-card h-100 d-flex flex-column"> 
+                <div class="${badgeClass}">${res.resource_type.toUpperCase()}</div>
+                <i class="fa-solid ${iconClass} card-main-icon"></i>
+                <h3>${res.title}</h3>
+                <p class="card-description">${res.description || 'No description available.'}</p>
+                
+                <div class="card-footer mt-auto d-flex justify-content-between">
+                    <span class="uploader-name">
+                        <p> uploaded by ${res.uploaded_by_name || 'Instructor'} </p>
+                    </span>
+
+                    <div class="footer-btns d-flex gap-2">
+                        <button class="btn-download" onclick="handleDownload('${fileUrl}')">
+                            <i class="fa-solid fa-download"></i> Download
+                        </button>
+                        ${!isPdf ? `
+                        <button class="btn-watch" onclick="openVideo('${fileUrl}', '${res.title.replace(/'/g, "\\'")}')">
+                            <i class="fa-solid fa-play"></i> Watch
+                        </button>` : ''}
+                    </div>
+                </div>
+            </div>`;
+        container.appendChild(col);
+    });
+
+    setupPaginationButtons();
+}
+
+function setupPaginationButtons() {
+    const paginationWrapper = document.getElementById('paginationButtons');
+    if (!paginationWrapper) return;
+    
+    paginationWrapper.innerHTML = '';
+    const pageCount = Math.ceil(filteredResources.length / itemsPerPage);
+
+    if (currentPage > 1) {
+        const previousBtn = document.createElement('button');
+        previousBtn.innerText = 'Previous';
+        previousBtn.classList.add('pagination-btn', 'pagination-previous');
+        previousBtn.onclick = () => {
+            displayPage(currentPage - 1);
+            window.scrollTo(0, 0);
+        };
+        paginationWrapper.appendChild(previousBtn);
+    }
+
+    for (let i = 1; i <= pageCount; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i;
+        btn.classList.add('pagination-btn');
+        if (i === currentPage) btn.classList.add('active');
+        
+        btn.onclick = () => {
+            displayPage(i);
+            window.scrollTo(0, 0); 
+        };
+        paginationWrapper.appendChild(btn);
+    }
+
+    if (currentPage < pageCount) {
+        const nextBtn = document.createElement('button');
+        nextBtn.innerText = 'Next';
+        nextBtn.classList.add('pagination-btn', 'pagination-next');
+        nextBtn.onclick = () => {
+            displayPage(currentPage + 1);
+            window.scrollTo(0, 0);
+        };
+        paginationWrapper.appendChild(nextBtn);
+    }
+}
+
+function handleDownload(fileUrl) {
+    const userRole = localStorage.getItem('userRole') || 'guest';
+    if (userRole === 'guest') {
+        alert("Access Restricted: Please log in to download the modules.");
+        window.location.href = 'portalaccess.html';
+    } else {
+        window.open(fileUrl, '_blank');
+    }
+}
+
 function filterResources() {
     const searchTerm = document.getElementById('repoSearch').value.toLowerCase();
-    const filterValue = document.getElementById('resourceFilter').value;
-    const cards = document.querySelectorAll('.insight-card');
+    const filterValue = document.getElementById('resourceFilter').value.toLowerCase();
 
-    cards.forEach(card => {
-        const title = card.querySelector('h3').innerText.toLowerCase();
-        const description = card.querySelector('p').innerText.toLowerCase();
-        const tagElement = card.querySelector('.card-tag');
-        
-        const tag = tagElement ? tagElement.innerText : 'all';
+    filteredResources = allResources.filter(res => {
+        const title = res.title.toLowerCase();
+        const description = (res.description || "").toLowerCase();
+        const tag = res.resource_type.toLowerCase().trim();
 
         const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
         const matchesFilter = (filterValue === 'all') || (tag === filterValue);
 
-        if (matchesSearch && matchesFilter) {
-            card.style.display = "flex";
-            card.style.opacity = "1";
-        } else {
-            card.style.display = "none";
-            card.style.opacity = "0";
-        }
+        return matchesSearch && matchesFilter;
     });
+
+    displayPage(1);
 }
 
 const video = document.getElementById('modalVideoPlayer');
@@ -83,23 +154,22 @@ function openVideo(videoSrc, videoTitle) {
     const userRole = localStorage.getItem('userRole');
 
     if (userRole === 'student' || userRole === 'instructor') {
-        
         const videoPlayer = document.getElementById('modalVideoPlayer');
         const modalTitle = document.getElementById('videoModalLabel');
         
         if (videoPlayer && modalTitle) {
-            videoPlayer.src = videoSrc;
+            videoPlayer.src = videoSrc; 
             modalTitle.innerText = videoTitle;
             
             const myModal = new bootstrap.Modal(document.getElementById('videoModal'));
             myModal.show();
             
-            videoPlayer.load();
-            videoPlayer.play();
+            videoPlayer.load(); 
+            videoPlayer.play().catch(err => console.log("Auto-play prevented:", err));
         }
     } else {
         alert("Access Restricted: Please log in to watch lecture videos.");
-        window.location.href = 'portalaccess.html';
+        window.location.href = 'contents/portalaccess.html';
     }
 }
 
@@ -108,53 +178,6 @@ function stopVideo() {
     if (videoPlayer) {
         videoPlayer.pause();
         videoPlayer.src = "";
-    }
-}
-
-function togglePlay() {
-    const video = document.getElementById('modalVideoPlayer');
-    const playBtn = document.getElementById('playBtn');
-    if (video.paused) {
-        video.play();
-        playBtn.classList.replace('fa-play', 'fa-pause');
-    } else {
-        video.pause();
-        playBtn.classList.replace('fa-pause', 'fa-play');
-    }
-}
-
-function toggleMute() {
-    video.muted = !video.muted;
-    document.getElementById('volBtn').className = video.muted ? "fas fa-volume-mute" : "fas fa-volume-up";
-}
-
-function changeSpeed() {
-    const btn = document.getElementById('speedBtn');
-    if (video.playbackRate === 1) { video.playbackRate = 1.5; btn.innerText = "1.5x"; }
-    else if (video.playbackRate === 1.5) { video.playbackRate = 2; btn.innerText = "2x"; }
-    else { video.playbackRate = 1; btn.innerText = "1x"; }
-}
-
-function toggleFullScreen() {
-    if (video.requestFullscreen) {
-        video.requestFullscreen();
-    } else if (video.webkitRequestFullscreen) { 
-        video.webkitRequestFullscreen();
-    }
-}
-
-function formatTime(seconds) {
-    if (isNaN(seconds)) return "0:00";
-    const minutes = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${minutes}:${secs < 10 ? '0' + secs : secs}`;
-}
-
-function updateTimeDisplay() {
-    if (video && timeDisplay) {
-        const current = formatTime(video.currentTime);
-        const total = formatTime(video.duration);
-        timeDisplay.innerText = `${current} / ${total}`;
     }
 }
 

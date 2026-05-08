@@ -193,10 +193,24 @@ app.use('/resources', express.static(path.join(__dirname, 'resources')));
 
 app.get('/api/resources', async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM resources ORDER BY created_at DESC");
+
+        const sql = `
+            SELECT 
+                resources_id, 
+                title, 
+                resource_type, 
+                description, 
+                file_url, 
+                uploaded_by_name, 
+                created_at 
+            FROM resources 
+            ORDER BY title ASC`;
+            
+        const result = await pool.query(sql);
         res.json(result.rows);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error("Fetch Error:", err.message);
+        res.status(500).json({ error: "Failed to load resources alphabetically." });
     }
 });
 
@@ -204,13 +218,31 @@ app.put('/api/resources/:id', (req, res) => {
     upload.single('file')(req, res, async (err) => {
         if (err instanceof multer.MulterError) {
             if (err.code === 'LIMIT_FILE_SIZE') {
-                return res.status(400).json({ error: "Update failed: New file exceeds 100MB limit." });
+                return res.status(400).json({ error: "Update failed: New file exceeds 500MB limit." });
             }
             return res.status(400).json({ error: err.message });
         }
 
     const { id } = req.params;
     const { title, description, resource_type, userName, removeFile } = req.body;
+
+    if (req.file) {
+        const PDF_LIMIT = 25 * 1024 * 1024;   
+        const VIDEO_LIMIT = 500 * 1024 * 1024; 
+
+        const fileExt = path.extname(req.file.originalname).toLowerCase();
+        const fileSize = req.file.size;
+
+        if (fileExt === '.pdf' && fileSize > PDF_LIMIT) {
+            fs.unlinkSync(req.file.path); 
+            return res.status(400).json({ error: "PDF too large (Max 25MB)." });
+        } 
+
+        if (['.mp4', '.mkv', '.mov'].includes(fileExt) && fileSize > VIDEO_LIMIT) {
+            fs.unlinkSync(req.file.path); 
+            return res.status(400).json({ error: "Video too large (Max 500MB)." });
+        }
+    }
     
     try {
         const currentData = await pool.query('SELECT file_url FROM resources WHERE resources_id = $1', [id]);
@@ -297,18 +329,6 @@ app.get('/api/resources/latest', async (req, res) => {
         res.json(response);
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ error: err.message });
-    }
-});
-
-app.get('/api/resources', async (req, res) => {
-    try {
-        const sql = "SELECT resources_id, title, resource_type, description, file_url, uploaded_by_name, created_at FROM resources ORDER BY created_at DESC";
-        const result = await pool.query(sql);
-        
-        res.json(result.rows);
-    } catch (err) {
-        console.error("Fetch Error:", err.message);
         res.status(500).json({ error: err.message });
     }
 });
