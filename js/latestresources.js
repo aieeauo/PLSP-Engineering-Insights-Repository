@@ -8,14 +8,11 @@ async function automateLatestResources() {
         const videoBtn = document.getElementById('latest-video-link'); 
 
         if (data.latestVideo) {
-            const videoTitle = data.latestVideo.title;
-            const videoUrl = `http://localhost:5000${data.latestVideo.file_url}`; 
-    
-            document.getElementById('latest-video-title').innerText = videoTitle;
-            document.getElementById('latest-video-desc').innerText = data.latestVideo.description;
-
-            const watchBtn = document.querySelector('.btn-watch');
-            watchBtn.setAttribute('onclick', `openVideo('${videoUrl}', '${videoTitle.replace(/'/g, "\\'")}')`);
+            videoTitle.innerText = data.latestVideo.title;
+            videoDesc.innerText = data.latestVideo.description || "New video lecture available.";
+            if (videoBtn) {
+                videoBtn.onclick = () => openVideo(`http://localhost:5000${data.latestVideo.file_url}`, data.latestVideo.title);
+            }
         } else {
             videoTitle.innerText = "No Videos Yet";
             videoDesc.innerText = "Check back soon for new video lectures.";
