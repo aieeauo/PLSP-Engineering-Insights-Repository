@@ -57,6 +57,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    if (video) {
+        video.onloadedmetadata = updateTimeDisplay;
+        video.ontimeupdate = updateTimeDisplay;
+    }
+
     document.querySelectorAll('.btn-download').forEach(btn => {
         btn.addEventListener('click', function(e) {
             const userRole = localStorage.getItem('userRole') || 'guest';
