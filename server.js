@@ -6,20 +6,36 @@ const app = express();
 const multer = require('multer');
 const fs = require('fs');
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, 'resources'),
-    filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+cloudinary.config({
+  cloud_name: 'your_cloud_name',
+  api_key: 'your_api_key',
+  api_secret: 'your_api_secret'
 });
 
-const GLOBAL_MAX = 500 * 1024 * 1024; 
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: async (req, file) => {
+    const fileExt = path.extname(file.originalname).toLowerCase();
+    return {
+      folder: 'plsp_repository',
+      resource_type: 'auto', 
+      public_id: Date.now() + '-' + file.originalname.split('.')[0],
+    };
+  },
+});
 
-const upload = multer({ 
+const upload = multer({  
     storage: storage,
     limits: { fileSize: GLOBAL_MAX } 
 });
 
-if (!fs.existsSync('./resources')){
-    fs.mkdirSync('./resources');
+const GLOBAL_MAX = 500 * 1024 * 1024; 
+
+if (!fs.existsSync('/resources')){
+    fs.mkdirSync('/resources');
 }
 
 app.use(cors({
@@ -170,7 +186,7 @@ app.post('/api/resources', (req, res) => {
         
     try {
         const { title, resource_type, description, uploaded_by_name } = req.body;
-        const db_path = req.file ? `/resources/${req.file.filename}` : null;
+        const db_path = req.file ? req.file.path : null;
 
         const query = `
             INSERT INTO resources (title, resource_type, description, file_url, uploaded_by_name) 
