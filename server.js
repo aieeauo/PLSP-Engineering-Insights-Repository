@@ -1,3 +1,12 @@
+require('dotenv').config(); 
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
+});
+
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
@@ -6,30 +15,28 @@ const app = express();
 const multer = require('multer');
 const fs = require('fs');
 
-const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 cloudinary.config({
-  cloud_name: 'your_cloud_name',
-  api_key: 'your_api_key',
-  api_secret: 'your_api_secret'
+  cloud_name: 'your_cloud_name_here',
+  api_key: 'your_api_key_here',
+  api_secret: 'your_api_secret_here'
 });
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
-    const fileExt = path.extname(file.originalname).toLowerCase();
     return {
-      folder: 'plsp_repository',
-      resource_type: 'auto', 
+      folder: 'engineering_repo', 
+      resource_type: 'auto',      
       public_id: Date.now() + '-' + file.originalname.split('.')[0],
     };
   },
 });
 
-const upload = multer({  
+const upload = multer({ 
     storage: storage,
-    limits: { fileSize: GLOBAL_MAX } 
+    limits: { fileSize: GLOBAL_MAX }  
 });
 
 const GLOBAL_MAX = 500 * 1024 * 1024; 
