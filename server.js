@@ -23,7 +23,11 @@ if (!fs.existsSync('./resources')){
 }
 
 app.use(cors({
-    origin: 'https://plsp-engg-insights-repository.onrender.com', 
+    origin: [
+        'https://plsp-engg-insights-repository.onrender.com',
+        'http://localhost:5000',
+        'http://127.0.0.1:5000'
+    ], 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type']
 }));
