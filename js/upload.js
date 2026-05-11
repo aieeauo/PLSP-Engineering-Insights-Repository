@@ -66,7 +66,7 @@ uploadForm.addEventListener('submit', async (e) => {
 
     const xhr = new XMLHttpRequest();
     
-    xhr.open('POST', '/api/resources/upload', true);
+    xhr.open('POST', '/api/resources', true);
 
     xhr.upload.onprogress = (event) => {
         if (event.lengthComputable) {
