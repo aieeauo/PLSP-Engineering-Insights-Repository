@@ -81,7 +81,7 @@ uploadForm.addEventListener('submit', async (e) => {
     xhr.onload = function() {
         if (xhr.status === 200 || xhr.status === 201) {
             alert("Module Published Successfully!");
-            window.location.href = 'library.html';
+            window.location.href = '/library';
         } else {
             const error = JSON.parse(xhr.responseText);
             alert("Upload failed: " + (error.error || "Server error"));

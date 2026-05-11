@@ -7,21 +7,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (welcomeElement) welcomeElement.innerText = userName;
     }
 
-    const videoPlayer = document.getElementById('modalVideoPlayer');
     const myModalEl = document.getElementById('videoModal');
-
     if (myModalEl) {
-        myModalEl.addEventListener('hidden.bs.modal', function () {
-            stopVideo();
-        });
+        myModalEl.addEventListener('hidden.bs.modal', () => stopVideo());
     }
 
     document.querySelectorAll('.btn-download').forEach(btn => {
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', (e) => {
             if (userRole === 'guest') {
                 e.preventDefault();
-                alert("Access Restricted: Please log in to download the modules.");
-                window.location.href = '/portalaccess.html';
+                alert("Access Restricted: Please log in to download modules.");
+                window.location.href = '/portalaccess';
+            }
+        });
+    });
+
+    document.querySelectorAll('.btn-watch').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            if (userRole === 'guest') {
+                e.preventDefault();
+                alert("Access Restricted: Please log in to watch lecture videos.");
+                window.location.href = '/portalaccess';
             }
         });
     });
@@ -42,19 +48,10 @@ function openVideo(videoSrc, videoTitle) {
             myModal.show();
             
             videoPlayer.load(); 
-            videoPlayer.play().catch(err => console.log("Auto-play blocked by browser:", err));
+            videoPlayer.play().catch(err => console.log("Auto-play blocked:", err));
         }
-
-    document.querySelectorAll('.btn-watch').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            if (userRole === 'guest') {
-                e.preventDefault();
-                alert("Access Restricted: Please log in to watch lecture videos.");
-                window.location.href = '/portalaccess.html';
-            }
-        });
-    });
-}};
+    }
+}
 
 function stopVideo() {
     const videoPlayer = document.getElementById('modalVideoPlayer');

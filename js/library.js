@@ -52,7 +52,7 @@ async function loadLibrary() {
 }
 
 function redirectToEdit(id) {
-    window.location.href = `/edit.html?id=${id}`;
+    window.location.href = `/edit?id=${id}`;
 }
 
 async function deleteResource(id) {

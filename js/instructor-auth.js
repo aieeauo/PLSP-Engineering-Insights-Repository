@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }));
 
                     alert("Login successful!");
-                    window.location.href = '/admin.html'; 
+                    window.location.href = '/admin'; 
                 } else {
                     if (statusDiv) {
                         statusDiv.style.display = 'block';
