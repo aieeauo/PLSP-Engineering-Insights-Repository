@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (userRole === 'guest') {
                 e.preventDefault();
                 alert("Access Restricted: Please log in to download the modules.");
-                window.location.href = 'contents/portalaccess.html';
+                window.location.href = '/portalaccess.html';
             }
         });
     });
@@ -46,7 +46,7 @@ function openVideo(videoSrc, videoTitle) {
         }
     } else {
         alert("Access Restricted: Please log in to watch lecture videos.");
-        window.location.href = 'contents/portalaccess.html';
+        window.location.href = '/portalaccess.html';
     }
 }
 

@@ -121,7 +121,7 @@ document.getElementById('editResourceForm').addEventListener('submit', async (e)
 
         if (response.ok) {
             alert("Repository Updated Successfully!");
-            window.location.href = 'library.html';
+            window.location.href = '/library.html';
         } else {
             const errorData = await response.json();
             alert("Update Error: " + (errorData.error || "Unknown server error"));

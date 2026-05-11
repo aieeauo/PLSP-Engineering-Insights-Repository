@@ -93,7 +93,7 @@ function handleDownload(fileUrl) {
     
     if (userRole === 'guest') {
         alert("Access Restricted: Please log in to download modules.");
-        window.location.href = 'portalaccess.html';
+        window.location.href = '/portalaccess.html';
     } else {
         window.open(fileUrl, '_blank');
     }
@@ -118,7 +118,7 @@ function openVideo(videoSrc, videoTitle) {
         }
     } else {
         alert("Access Restricted: Please log in to watch lecture videos.");
-        window.location.href = 'portalaccess.html';
+        window.location.href = '/portalaccess.html';
     }
 }
 

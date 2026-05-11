@@ -3,16 +3,16 @@ function checkPageAccess() {
     const path = window.location.pathname;
 
     const instructorPages = ['admin.html', 'upload.html', 'library.html', 'edit.html'];
-    const protectedPages = ['repository.html'];
+    const protectedPages = ['/repository.html'];
 
     if (instructorPages.some(page => path.includes(page)) && userRole !== 'instructor') {
         alert("Access Denied: Instructor credentials required.");
-        window.location.href = 'portalaccess.html';
+        window.location.href = '/portalaccess.html';
     }
 
     if (protectedPages.some(page => path.includes(page)) && userRole === 'guest') {
         alert("Please log in to view the repository.");
-        window.location.href = 'portalaccess.html';
+        window.location.href = '/portalaccess.html';
     }
 }
 

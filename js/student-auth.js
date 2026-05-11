@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }));
                     
                     alert("Login successful!");
-                    window.location.href = 'repository.html';
+                    window.location.href = '/repository.html';
                 } else {
                     if (statusDiv) {
                         statusDiv.style.display = 'block';
