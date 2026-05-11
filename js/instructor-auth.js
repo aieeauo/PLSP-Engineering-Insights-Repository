@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('signup-password').value;
 
             try {
-                const response = await fetch('/api/instructor/signup', {
+                const response = await fetch('/api/signup/instructor', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ first_name, last_name, email, password })
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('login-password').value;
 
             try {
-                const response = await fetch('/api/instructor/login', {
+                const response = await fetch('/api/login/instructor', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })

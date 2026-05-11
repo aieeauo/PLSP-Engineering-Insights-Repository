@@ -52,7 +52,7 @@ app.post('/api/signup/student', async (req, res) => {
     }
 });
 
-app.post('/api/login', async (req, res) => {
+app.post('/api/login/student', async (req, res) => {
     const { student_number, password } = req.body;
     try {
         const user = await pool.query("SELECT * FROM students WHERE student_number = $1", [student_number]);
