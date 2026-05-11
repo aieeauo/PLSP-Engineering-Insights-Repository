@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const first_name = document.getElementById('signup-firstname').value;
             const last_name = document.getElementById('signup-lastname').value;
-            const email = document.getElementById('signup-email').value; 
+            const email = document.getElementById('signup-email_address').value; 
             const password = document.getElementById('signup-password').value;
 
             try {
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('/api/login/instructor', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ email_address, password })
                 });
 
                 const result = await response.json();
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('userRole', 'instructor');
                     localStorage.setItem('user', JSON.stringify({
                         name: `${result.user.first_name} ${result.user.last_name}`,
-                        email: result.user.email,
+                        email: result.user.email_address,
                         role: 'instructor'
                     }));
 
