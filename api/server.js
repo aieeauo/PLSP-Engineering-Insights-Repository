@@ -93,45 +93,35 @@ app.post('/api/login/instructor', async (req, res) => {
 });
 
 app.post('/api/resources', (req, res) => {
-  upload.single('file')(req, res, async (err) => {
-    if (err instanceof multer.MulterError) {
-      return res.status(400).json({ error: err.message });
-    }
+    upload.single('file')(req, res, async (err) => {
+        if (err) return res.status(400).json({ error: err.message });
 
-    try {
-      const { title, resource_type, description, uploaded_by_name, file_url } = req.body;
-      let final_url = "";
+        try {
+            const { title, description, resource_type, uploaded_by_name, file_url } = req.body;
+            let final_url = "";
 
-      if (req.file) {
-        const fileExt = path.extname(req.file.originalname).toLowerCase();
-        
-        if (fileExt === '.pdf') {
-          const blob = await put(`resources/${Date.now()}-${req.file.originalname}`, req.file.buffer, {
-            access: 'public',
-            token: process.env.BLOB_READ_WRITE_TOKEN
-          });
-          final_url = blob.url;
-        } 
-      } 
-      else if (file_url) {
-        final_url = file_url;
-      } 
-      else {
-        return res.status(400).json({ error: "No file or URL provided." });
-      }
+            if (req.file) {
+                const blob = await put(`resources/${Date.now()}-${req.file.originalname}`, req.file.buffer, {
+                    access: 'public',
+                    token: process.env.BLOB_READ_WRITE_TOKEN
+                });
+                final_url = blob.url;
+            } else if (file_url) {
+                final_url = file_url;
+            }
 
-      const query = `INSERT INTO resources (title, resource_type, description, file_url, uploaded_by_name) 
-                     VALUES ($1, $2, $3, $4, $5) RETURNING resources_id`;
-      
-      const result = await pool.query(query, [title, resource_type, description, final_url, uploaded_by_name]);
+            if (!final_url) return res.status(400).json({ error: "Missing file or URL" });
 
-      res.status(201).json({ message: "Success", resource_id: result.rows[0].resources_id });
+            const query = `INSERT INTO resources (title, description, resource_type, file_url, uploaded_by_name) 
+                           VALUES ($1, $2, $3, $4, $5)`;
+            await pool.query(query, [title, description, resource_type, final_url, uploaded_by_name]);
 
-    } catch (err) {
-      console.error("UPLOAD ERROR:", err.message);
-      res.status(500).json({ error: err.message });
-    }
-  });
+            res.status(201).json({ message: "Resource saved successfully!" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Database error" });
+        }
+    });
 });
 
 app.get('/api/resources', async (req, res) => {
