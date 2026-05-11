@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('/api/signup/instructor', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ first_name, last_name, email, password })
+                    body: JSON.stringify({ first_name, last_name, email_address, password })
                 });
 
                 const result = await response.json();
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const email = document.getElementById('login-email').value; 
+            const email = document.getElementById('login-email_address').value; 
             const password = document.getElementById('login-password').value;
 
             try {
