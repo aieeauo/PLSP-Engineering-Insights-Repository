@@ -66,7 +66,7 @@ function displayPage(page) {
                 <h3>${res.title}</h3>
                 <p class="card-description">${res.description || 'No description available.'}</p>
                 
-                <div class="card-footer mt-auto d-flex justify-content-between align-items-center">
+                <div class="card-footer mt-auto d-flex justify-content-between">
                     <span class="uploader-name">
                         uploaded by ${res.uploaded_by_name || 'Instructor'}
                     </span>

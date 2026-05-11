@@ -95,40 +95,29 @@ app.post('/api/login/instructor', async (req, res) => {
 app.post('/api/resources', (req, res) => {
   upload.single('file')(req, res, async (err) => {
     if (err instanceof multer.MulterError) {
-      if (err.code === 'LIMIT_FILE_SIZE') return res.status(400).json({ error: "File exceeds the 500MB maximum system limit." });
       return res.status(400).json({ error: err.message });
     }
-    if (!req.file) return res.status(400).json({ error: "No file uploaded." });
-
-    const PDF_LIMIT = 25 * 1024 * 1024;   
-    const VIDEO_LIMIT = 500 * 1024 * 1024; 
-    const fileExt = path.extname(req.file.originalname).toLowerCase();
-    const fileSize = req.file.size;
 
     try {
-      const { title, resource_type, description, uploaded_by_name } = req.body;
+      const { title, resource_type, description, uploaded_by_name, file_url } = req.body;
       let final_url = "";
 
-      if (fileExt === '.pdf') {
-        if (fileSize > PDF_LIMIT) return res.status(400).json({ error: "PDF modules must be under 25MB." });
+      if (req.file) {
+        const fileExt = path.extname(req.file.originalname).toLowerCase();
         
-        const blob = await put(`resources/${Date.now()}-${req.file.originalname}`, req.file.buffer, {
-          access: 'public',
-          token: process.env.BLOB_READ_WRITE_TOKEN
-        });
-        final_url = blob.url;
+        if (fileExt === '.pdf') {
+          const blob = await put(`resources/${Date.now()}-${req.file.originalname}`, req.file.buffer, {
+            access: 'public',
+            token: process.env.BLOB_READ_WRITE_TOKEN
+          });
+          final_url = blob.url;
+        } 
       } 
-      else if (['.mp4', '.mkv', '.mov'].includes(fileExt)) {
-        if (fileSize > VIDEO_LIMIT) return res.status(400).json({ error: "Video files must be under 500MB." });
-        
-        const result = await new Promise((resolve, reject) => {
-          const stream = cloudinary.uploader.upload_stream(
-            { folder: "engineering_repo", resource_type: "video" },
-            (error, result) => { if (error) reject(error); else resolve(result); }
-          );
-          stream.end(req.file.buffer);
-        });
-        final_url = result.secure_url;
+      else if (file_url) {
+        final_url = file_url;
+      } 
+      else {
+        return res.status(400).json({ error: "No file or URL provided." });
       }
 
       const query = `INSERT INTO resources (title, resource_type, description, file_url, uploaded_by_name) 
@@ -137,6 +126,7 @@ app.post('/api/resources', (req, res) => {
       const result = await pool.query(query, [title, resource_type, description, final_url, uploaded_by_name]);
 
       res.status(201).json({ message: "Success", resource_id: result.rows[0].resources_id });
+
     } catch (err) {
       console.error("UPLOAD ERROR:", err.message);
       res.status(500).json({ error: err.message });
