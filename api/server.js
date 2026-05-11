@@ -37,17 +37,26 @@ app.use(cors({
 app.use(express.json());
 
 app.use(express.static(__dirname));
-app.use(express.static(path.join(__dirname, 'contents')));
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
-app.use('/js', express.static(path.join(__dirname, 'api')));
+app.use('/api', express.static(path.join(__dirname, 'api')));
+app.use('/img', express.static(path.join(__dirname, 'img')));
 
-const rootDir = path.resolve(__dirname, '..');
+const rootDir = path.join(process.cwd()); 
 
 app.use(express.static(rootDir));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(rootDir, 'index.html'));
+});
+
+app.get('/:page', (req, res) => {
+    const page = req.params.page;
+    if (page.endsWith('.html')) {
+        res.sendFile(path.join(rootDir, page));
+    } else {
+        res.sendFile(path.join(rootDir, `${page}.html`));
+    }
 });
 
 app.post('/api/signup/student', async (req, res) => {
