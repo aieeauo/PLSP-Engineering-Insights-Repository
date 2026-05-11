@@ -34,17 +34,14 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type']
 }));
+
 app.use(express.json());
 
-app.use(express.static(__dirname));
-app.use('/css', express.static(path.join(__dirname, 'css')));
-app.use('/js', express.static(path.join(__dirname, 'js')));
-app.use('/api', express.static(path.join(__dirname, 'api')));
-app.use('/img', express.static(path.join(__dirname, 'img')));
+const rootDir = process.cwd(); 
 
-const rootDir = path.join(process.cwd()); 
-
-app.use(express.static(rootDir));
+app.use('/css', express.static(path.join(rootDir, 'css')));
+app.use('/js', express.static(path.join(rootDir, 'js')));
+app.use('/img', express.static(path.join(rootDir, 'img')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(rootDir, 'index.html'));
@@ -52,11 +49,17 @@ app.get('/', (req, res) => {
 
 app.get('/:page', (req, res) => {
     const page = req.params.page;
-    if (page.endsWith('.html')) {
-        res.sendFile(path.join(rootDir, page));
-    } else {
-        res.sendFile(path.join(rootDir, `${page}.html`));
+
+    if (page.includes('.') && !page.endsWith('.html')) {
+        return res.status(404).send('Not found');
     }
+
+    const fileName = page.endsWith('.html') ? page : `${page}.html`;
+    res.sendFile(path.join(rootDir, fileName), (err) => {
+        if (err) {
+            res.status(404).send('Page not found');
+        }
+    });
 });
 
 app.post('/api/signup/student', async (req, res) => {
