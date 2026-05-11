@@ -37,30 +37,6 @@ app.use(cors({
 
 app.use(express.json());
 
-const rootDir = process.cwd(); 
-
-app.use('/css', express.static(path.join(rootDir, 'css')));
-app.use('/js', express.static(path.join(rootDir, 'js')));
-app.use('/img', express.static(path.join(rootDir, 'img')));
-
-app.get('/:page', (req, res) => {
-    const page = req.params.page;
-
-    if (page.includes('.') && !page.endsWith('.html')) {
-        return res.status(404).send('Not a page');
-    }
-
-    const fileName = page.endsWith('.html') ? page : `${page}.html`;
-    
-    const filePath = path.join(process.cwd(), fileName);
-
-    res.sendFile(filePath, (err) => {
-        if (err) {
-            console.error(`Error sending ${fileName}:`, err);
-            res.status(404).send("<h1>404 - Page Not Found</h1><p>The engineering resource you are looking for does not exist.</p>");
-        }
-    });
-});
 app.post('/api/signup/student', async (req, res) => {
     const { first_name, last_name, student_number, password } = req.body;
     try {
@@ -250,8 +226,34 @@ app.delete('/api/resources/:id', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 5000;
+const rootDir = process.cwd(); 
 
+app.use('/css', express.static(path.join(rootDir, 'css')));
+app.use('/js', express.static(path.join(rootDir, 'js')));
+app.use('/img', express.static(path.join(rootDir, 'img')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(rootDir, 'index.html'));
+});
+
+app.get('/:page', (req, res) => {
+    const page = req.params.page;
+
+    if (page.startsWith('api') || (page.includes('.') && !page.endsWith('.html'))) {
+        return res.status(404).send('Not found');
+    }
+
+    const fileName = page.endsWith('.html') ? page : `${page}.html`;
+    const filePath = path.join(rootDir, fileName);
+
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            res.status(404).send("<h1>404 - Page Not Found</h1>");
+        }
+    });
+});
+
+const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, '0.0.0.0', () => {
         console.log(`✅ Server is running on port ${PORT}`);
