@@ -1,87 +1,104 @@
-const uploadForm = document.querySelector('.upload-form');
+const uploadForm = document.getElementById('uploadForm');
 const fileInput = document.getElementById('file-upload');
 const dropZonePrompt = document.getElementById('drop-zone-prompt');
 const fileInfo = document.getElementById('file-info');
 const fileNameDisplay = document.getElementById('file-name');
+const progressBar = document.getElementById('progress-bar');
+const progressContainer = document.getElementById('progress-container');
 
 fileInput.addEventListener('change', function() {
     if (this.files && this.files[0]) {
-        fileNameDisplay.textContent = this.files[0].name;
+        const file = this.files[0];
+        const fileSizeMB = file.size / (1024 * 1024);
+        const resourceType = document.getElementById('resource-type').value;
+
+        if (resourceType === 'pdf' && fileSizeMB > 25) {
+            alert(`PDF too large (${fileSizeMB.toFixed(1)}MB). Max 25MB.`);
+            this.value = '';
+            return;
+        }
+        if (resourceType === 'video' && fileSizeMB > 500) {
+            alert(`Video too large (${fileSizeMB.toFixed(1)}MB). Max 500MB.`);
+            this.value = '';
+            return;
+        }
+
+        fileNameDisplay.textContent = file.name;
         dropZonePrompt.style.display = 'none';
         fileInfo.style.display = 'block';
     }
 });
 
 window.clearFile = function(event) {
-    event.stopPropagation();
+    if (event) event.stopPropagation();
     fileInput.value = '';
     fileInfo.style.display = 'none';
     dropZonePrompt.style.display = 'block';
+    if (progressContainer) progressContainer.style.display = 'none';
 };
 
 uploadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const fullName = localStorage.getItem('userName'); 
+    const user = JSON.parse(localStorage.getItem('user'));
+    const fullName = user ? user.name : localStorage.getItem('userName');
+    
+    const file = fileInput.files[0];
+    const title = document.getElementById('resource-title').value;
+    const type = document.getElementById('resource-type').value;
+    const desc = document.getElementById('resource-desc').value;
 
-    if (!fullName) {
-        alert("Session not found. Please log in again to verify your name.");
-        return;
-    }
+    if (!fullName) return alert("Session expired. Please log in again.");
+    if (!file) return alert("Please select a file first.");
 
-    if (!fileInput.files[0]) {
-        alert("Please select a file first.");
-        return;
-    }
+    const submitBtn = document.getElementById('publishBtn') || uploadForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Processing...";
 
     const formData = new FormData();
-    formData.append('title', document.getElementById('resource-title').value);
-    formData.append('resource_type', document.getElementById('resource-type').value);
-    formData.append('description', document.getElementById('resource-desc').value || "No description");
-    formData.append('file', fileInput.files[0]);
+    formData.append('file', file);
+    formData.append('title', title);
+    formData.append('resource_type', type);
+    formData.append('description', desc);
+    formData.append('uploaded_by_name', fullName);
+
+    if (progressContainer) progressContainer.style.display = 'block';
+
+    const xhr = new XMLHttpRequest();
     
-    formData.append('uploaded_by_name', fullName); 
+    xhr.open('POST', '/api/resources/upload', true);
 
-    try {
-        const response = await fetch('https://plsp-engg-insights-repository.onrender.com/api/resources', {
-            method: 'POST',
-            body: formData 
-        });
+    xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+            const percentComplete = Math.round((event.loaded / event.total) * 100);
+            if (progressBar) {
+                progressBar.style.width = percentComplete + '%';
+                submitBtn.innerText = `Uploading (${percentComplete}%)`;
+            }
+        }
+    };
 
-        if (response.ok) {
-            alert(`Success! Published by ${fullName}`);
+    xhr.onload = function() {
+        if (xhr.status === 200 || xhr.status === 201) {
+            alert("Module Published Successfully!");
             window.location.href = 'library.html';
         } else {
-            const errorData = await response.json();
-            alert("Upload Failed: " + errorData.error);
+            const error = JSON.parse(xhr.responseText);
+            alert("Upload failed: " + (error.error || "Server error"));
+            resetButton();
         }
-    } catch (err) {
-        console.error("Connection error:", err);
-        alert("Cannot connect to server.");
+    };
+
+    xhr.onerror = function() {
+        alert("Network error occurred during upload.");
+        resetButton();
+    };
+
+    xhr.send(formData);
+
+    function resetButton() {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Publish to Repository";
+        if (progressContainer) progressContainer.style.display = 'none';
     }
-});
-
-fileInput.addEventListener('change', function() {
-    const file = this.files[0];
-    if (!file) return;
-
-    const fileSizeMB = file.size / (1024 * 1024);
-    const fileType = file.type;
-    const resourceType = document.getElementById('resource-type').value;
-
-    if (resourceType === 'pdf' && fileSizeMB > 25) {
-        alert("The PDF is too large. Max limit is 25MB.");
-        this.value = ""; 
-        return;
-    }
-    
-    if (resourceType === 'video' && fileSizeMB > 500) {
-        alert("The video is too large. Max limit is 500MB.");
-        this.value = "";
-        return;
-    }
-
-    fileNameDisplay.textContent = file.name;
-    dropZonePrompt.style.display = 'none';
-    fileInfo.style.display = 'block';
 });

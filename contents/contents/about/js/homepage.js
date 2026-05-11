@@ -1,20 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
     const userName = localStorage.getItem('userName');
+    const userRole = localStorage.getItem('userRole') || 'guest';
+    
     if (userName) {
         const welcomeElement = document.getElementById('user-name-display');
         if (welcomeElement) welcomeElement.innerText = userName;
     }
-});
 
-const video = document.getElementById('modalVideoPlayer');
-const timeDisplay = document.getElementById('videoTime');
+    const videoPlayer = document.getElementById('modalVideoPlayer');
+    const myModalEl = document.getElementById('videoModal');
 
-const myModalEl = document.getElementById('videoModal');
-if (myModalEl) {
-    myModalEl.addEventListener('hidden.bs.modal', function () {
-        stopVideo();
+    if (myModalEl) {
+        myModalEl.addEventListener('hidden.bs.modal', function () {
+            stopVideo();
+        });
+    }
+
+    document.querySelectorAll('.btn-download').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            if (userRole === 'guest') {
+                e.preventDefault();
+                alert("Access Restricted: Please log in to download the modules.");
+                window.location.href = 'contents/portalaccess.html';
+            }
+        });
     });
-}
+});
 
 function openVideo(videoSrc, videoTitle) {
     const userRole = localStorage.getItem('userRole');
@@ -24,7 +35,6 @@ function openVideo(videoSrc, videoTitle) {
         const modalTitle = document.getElementById('videoModalLabel');
         
         if (videoPlayer && modalTitle) {
-
             videoPlayer.src = videoSrc; 
             modalTitle.innerText = videoTitle;
             
@@ -32,7 +42,7 @@ function openVideo(videoSrc, videoTitle) {
             myModal.show();
             
             videoPlayer.load(); 
-            videoPlayer.play().catch(err => console.log("Auto-play prevented:", err));
+            videoPlayer.play().catch(err => console.log("Auto-play blocked by browser:", err));
         }
     } else {
         alert("Access Restricted: Please log in to watch lecture videos.");
@@ -44,32 +54,16 @@ function stopVideo() {
     const videoPlayer = document.getElementById('modalVideoPlayer');
     if (videoPlayer) {
         videoPlayer.pause();
-        videoPlayer.src = "";
+        videoPlayer.src = ""; 
     }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const myModalEl = document.getElementById('videoModal');
-    if (myModalEl) {
-        myModalEl.addEventListener('hidden.bs.modal', function () {
-            video.pause();
-            video.src = "";
-        });
+function updateTimeDisplay() {
+    const video = document.getElementById('modalVideoPlayer');
+    const timeDisplay = document.getElementById('videoTime');
+    if (video && timeDisplay) {
+        const current = Math.floor(video.currentTime);
+        const duration = Math.floor(video.duration);
+        timeDisplay.innerText = `${current}s / ${duration}s`;
     }
-
-    if (video) {
-        video.onloadedmetadata = updateTimeDisplay;
-        video.ontimeupdate = updateTimeDisplay;
-    }
-
-    document.querySelectorAll('.btn-download').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            const userRole = localStorage.getItem('userRole') || 'guest';
-            if (userRole === 'guest') {
-                e.preventDefault();
-                alert("Access Restricted: Please log in to download the modules.");
-                window.location.href = 'contents/portalaccess.html';
-            }
-        });
-    });
-});
+}

@@ -3,10 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>PLSP Eng'g Insights Repository</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Library | PLSP Eng'g Insights Repository</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
-
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="css\library.css">
@@ -37,17 +38,23 @@
 
     <section class="library-container">
         <div class="library-list-wrapper" id="library-list">
-    
+            <div class="text-center text-dim py-5">
+                <i class="fas fa-spinner fa-spin fa-2x mb-3"></i>
+                <p>Loading your resources...</p>
+            </div>
         </div>
     </section>
 </main>
 
 <a href="admin.html" class="btn-back">
-        <i class="fa-solid fa-chevron-left"></i> Back to Dashboard
-    </a>
+    <i class="fa-solid fa-chevron-left"></i> Back to Dashboard
+</a>
 
-<script src="js/library.js"></script>
+<div id="status-msg" style="display:none; position: fixed; bottom: 20px; right: 20px; z-index: 1000;" class="alert"></div>
+
 <script src="js/mgmt.js"></script>
+<script src="js/library.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

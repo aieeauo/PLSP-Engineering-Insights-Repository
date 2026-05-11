@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>PLSP Eng'g Insights Repository</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Resource | PLSP Eng'g Insights Repository</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
 
@@ -38,7 +39,6 @@
     <section class="upload-section">
         <form class="upload-form" id="editResourceForm">
             <input type="hidden" id="resourceId">
-            <input type="file" id="fileInput" style="display: none;" onchange="handleNewFileSelected(this)">
 
             <div class="drop-zone mb-4" id="drop-zone">
                 <div id="file-preview-state" class="text-center" style="display: none;">
@@ -58,7 +58,7 @@
                         <label for="fileInput" class="text-warning" style="cursor: pointer; text-decoration: underline;">
                             Browse
                         </label>
-                        <input type="file" id="fileInput" name="file" accept=".pdf, .mp4, .mkv, .mov" style="display: none;">
+                        <input type="file" id="fileInput" name="file" accept=".pdf, .mp4, .mkv, .mov" style="display: none;" onchange="handleNewFileSelected(this)">
                     </p>
                     <small>Allowed: PDF (25MB), Video (500MB)</small>
                 </div>
@@ -83,7 +83,7 @@
                     <textarea id="resourceDescription" rows="4"></textarea> 
                 </div>
 
-                <button type="submit" class="btn-publish" style="width: 100%;">Publish to Repository</button>
+                <button type="submit" class="btn-publish" id="updateBtn" style="width: 100%;">Save Changes</button>
             </div>
         </form>
     </section>
@@ -91,11 +91,11 @@
 
 <a href="library.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Back to Library</a>
 
-<div id="status-msg" style="display: none; text-align: center; margin-top: 15px; padding: 10px; border-radius: 5px;">
-    </div>
+<div id="status-msg" style="display: none; text-align: center; margin-top: 15px; padding: 10px; border-radius: 5px;"></div>
 
-<script src="js/edit.js"></script>
 <script src="js/mgmt.js"></script>
+<script src="js/edit.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

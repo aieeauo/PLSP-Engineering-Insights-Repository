@@ -215,3 +215,52 @@ cursor: pointer;
 .close-modal:hover {
 color: var(--accent-gold);
 }
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.pagination-wrapper {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.pagination-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-dim); 
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+}
+
+.pagination-btn:hover {
+    color: var(--text-main); 
+}
+
+.pagination-btn.active {
+    color: var(--accent-gold); 
+    border-bottom: 2px solid var(--accent-gold);
+    cursor: default;
+}
+
+.pagination-next {
+    color: #ffb703;
+    font-weight: 700;
+    margin-left: 10px; 
+    text-decoration: none;
+}
+
+.pagination-previous {
+    color: #ffb703;
+    font-weight: 700;
+    margin-right: 10px; 
+    text-decoration: none;
+}

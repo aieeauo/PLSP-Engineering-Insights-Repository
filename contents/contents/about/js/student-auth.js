@@ -1,87 +1,97 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.querySelector('#login-form form');
-    const signupForm = document.querySelector('#signup-form form');
+    const loginForm = document.getElementById('studentLoginForm');
+    const signupForm = document.getElementById('studentSignupForm');
+    const statusDiv = document.getElementById('auth-status');
 
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const student_number = document.getElementById('login-student_number').value;
-    const password = document.getElementById('login-password').value;
+    if (signupForm) {
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-    try {
-        const response = await fetch('https://plsp-engg-insights-repository.onrender.com/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ student_number, password }) 
-        });
-                const data = await response.json();
+            const first_name = document.getElementById('signup-firstname').value;
+            const last_name = document.getElementById('signup-lastname').value;
+            const student_number = document.getElementById('signup-student_number').value;
+            const password = document.getElementById('signup-password').value;
+
+            try {
+                const response = await fetch('/api/auth/student/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ first_name, last_name, student_number, password })
+                });
+
+                const result = await response.json();
 
                 if (response.ok) {
-                    localStorage.setItem('userRole', 'student');
-                    localStorage.setItem('studentNumber', data.user.student_number);
-                    localStorage.setItem('userName', `${data.user.first_name} ${data.user.last_name}`);
-                    alert("Login successful!");
-                    window.location.href = 'index.html';
+                    alert("Student account created successfully! You can now log in.");
+                    showForm('login'); 
                 } else {
-                    alert(data.error || "Login failed. Check your Student Number.");
+                    alert("Registration failed: " + (result.error || "Unknown error"));
                 }
             } catch (err) {
-                alert("Connection error.");
+                console.error("Signup error:", err);
+                alert("Could not connect to the server.");
             }
         });
     }
 
-    if (signupForm) {
-        signupForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const student_number = document.getElementById('login-student_number').value;
+            const password = document.getElementById('login-password').value;
 
-    const first_name = document.getElementById('signup-firstname').value;
-    const last_name = document.getElementById('signup-lastname').value;
-    const student_number = document.getElementById('signup-student_number').value;
-    const password = document.getElementById('signup-password').value;
+            try {
+                const response = await fetch('/api/auth/student/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ student_number, password })
+                });
 
-    try {
-        const response = await fetch('https://plsp-engg-insights-repository.onrender.com/api/signup/student', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                first_name, 
-                last_name, 
-                student_number, 
-                password 
-            })
+                const result = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('userRole', 'student');
+                    localStorage.setItem('user', JSON.stringify({
+                        name: `${result.user.first_name} ${result.user.last_name}`,
+                        studentNumber: result.user.student_number,
+                        role: 'student'
+                    }));
+                    
+                    alert("Login successful!");
+                    window.location.href = 'repository.html';
+                } else {
+                    if (statusDiv) {
+                        statusDiv.style.display = 'block';
+                        statusDiv.style.color = '#ff4d4d';
+                        statusDiv.innerText = result.error || "Invalid Student Number or Password.";
+                    } else {
+                        alert("Login failed: " + (result.error || "Invalid credentials."));
+                    }
+                }
+            } catch (err) {
+                console.error("Login error:", err);
+                alert("Server connection failed.");
+            }
         });
-
-        if (response.ok) {
-            alert("Student account created successfully!");
-            showForm('login');
-        } else {
-            const data = await response.json();
-            alert(data.error || "Registration failed.");
-        }
-    } catch (err) {
-        console.error("Fetch Error:", err);
-        alert("Server error during registration.");
-    }
-});
     }
 });
 
 function showForm(type) {
     const loginForm = document.getElementById('login-form');
     const signupForm = document.getElementById('signup-form');
-    const tabs = document.querySelectorAll('.tab-link');
+    const tabSignup = document.getElementById('tab-signup');
+    const tabLogin = document.getElementById('tab-login');
 
     if (type === 'signup') {
         signupForm.style.display = 'block';
         loginForm.style.display = 'none';
-        tabs[0].classList.add('active');
-        tabs[1].classList.remove('active');
+        tabSignup.classList.add('active');
+        tabLogin.classList.remove('active');
     } else {
         signupForm.style.display = 'none';
         loginForm.style.display = 'block';
-        tabs[1].classList.add('active');
-        tabs[0].classList.remove('active');
+        tabSignup.classList.remove('active');
+        tabLogin.classList.add('active');
     }
 }

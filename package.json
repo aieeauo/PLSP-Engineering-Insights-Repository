@@ -1,18 +1,23 @@
 {
-  "name": "final-project---website",
+  "name": "plsp-engg-insights-repository",
   "version": "1.0.0",
-  "description": "",
-  "main": "analytics.js",
+  "description": "Institutional repository for PLSP Engineering department",
+  "main": "api/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node api/server.js",
+    "dev": "nodemon api/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aieeauo/PLSP-Engineering-Insights-Repository.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "engineering",
+    "repository",
+    "plsp"
+  ],
+  "author": "Anniejel Llaguno",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
@@ -20,14 +25,20 @@
   },
   "homepage": "https://github.com/aieeauo/PLSP-Engineering-Insights-Repository#readme",
   "dependencies": {
-    "bcrypt": "^6.0.0",
-    "cloudinary": "^2.10.0",
-    "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "multer": "^2.1.1",
-    "multer-storage-cloudinary": "^2.2.1",
-    "pg": "^8.20.0"
+    "@vercel/blob": "^2.3.3",
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
+    "pg": "^8.11.5"
+  },
+  "overrides": {
+    "multer-storage-cloudinary": {
+      "cloudinary": "$cloudinary"
+    }
   }
 }
