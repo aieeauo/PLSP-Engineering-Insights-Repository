@@ -40,11 +40,13 @@ app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'contents')));
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
+app.use('/js', express.static(path.join(__dirname, 'api')));
 
-app.get('/portalaccess.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'contents', 'portalaccess.html'));
+app.use(express.static(path.join(__dirname, '../')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../index.html'));
 });
-
 
 app.post('/api/signup/student', async (req, res) => {
     const { first_name, last_name, student_number, password } = req.body;
