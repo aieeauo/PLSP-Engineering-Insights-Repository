@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const first_name = document.getElementById('signup-firstname').value;
             const last_name = document.getElementById('signup-lastname').value;
-            const email = document.getElementById('signup-email_address').value; 
+            const email_address = document.getElementById('signup-email_address').value; 
             const password = document.getElementById('signup-password').value;
 
             try {
