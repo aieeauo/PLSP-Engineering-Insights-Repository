@@ -94,32 +94,56 @@ app.post('/api/login/instructor', async (req, res) => {
 
 app.post('/api/resources', (req, res) => {
     upload.single('file')(req, res, async (err) => {
-        if (err) return res.status(400).json({ error: err.message });
+        if (err instanceof multer.MulterError) {
+            return res.status(400).json({ error: `Multer Error: ${err.message}` });
+        }
 
         try {
-            const { title, description, resource_type, uploaded_by_name, file_url } = req.body;
+            const { title, resource_type, description, uploaded_by_name, file_url } = req.body;
             let final_url = "";
 
             if (req.file) {
+                const fileExt = path.extname(req.file.originalname).toLowerCase();
+                const fileSize = req.file.size;
+                const PDF_LIMIT = 25 * 1024 * 1024;
+
+                if (fileExt !== '.pdf') {
+                    return res.status(400).json({ error: "Only PDF files are allowed via this path." });
+                }
+                if (fileSize > PDF_LIMIT) {
+                    return res.status(400).json({ error: "PDF must be under 25MB." });
+                }
+
                 const blob = await put(`resources/${Date.now()}-${req.file.originalname}`, req.file.buffer, {
                     access: 'public',
                     token: process.env.BLOB_READ_WRITE_TOKEN
                 });
                 final_url = blob.url;
-            } else if (file_url) {
+            } 
+            else if (file_url) {
                 final_url = file_url;
             }
 
-            if (!final_url) return res.status(400).json({ error: "Missing file or URL" });
+            if (!final_url) {
+                return res.status(400).json({ error: "No file uploaded or video URL provided." });
+            }
 
-            const query = `INSERT INTO resources (title, description, resource_type, file_url, uploaded_by_name) 
-                           VALUES ($1, $2, $3, $4, $5)`;
-            await pool.query(query, [title, description, resource_type, final_url, uploaded_by_name]);
+            const query = `
+                INSERT INTO resources (title, resource_type, description, file_url, uploaded_by_name) 
+                VALUES ($1, $2, $3, $4, $5) 
+                RETURNING resources_id
+            `;
+            const values = [title, resource_type, description, final_url, uploaded_by_name];
+            const result = await pool.query(query, values);
 
-            res.status(201).json({ message: "Resource saved successfully!" });
+            res.status(201).json({ 
+                message: "Resource Published Successfully!", 
+                resource_id: result.rows[0].resources_id 
+            });
+
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: "Database error" });
+            console.error("SERVER UPLOAD ERROR:", error.message);
+            res.status(500).json({ error: "Internal Server Error during publishing." });
         }
     });
 });
