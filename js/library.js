@@ -20,7 +20,13 @@ async function loadLibrary() {
         }
 
         resources.forEach(item => {
-            const isOwner = (item.uploaded_by_name === currentUserName);
+            const user = JSON.parse(localStorage.getItem('user')) || {};
+            const currentUserName = user.name || (user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : null);
+    
+            const isOwner = currentUserName && 
+                    item.uploaded_by_name && 
+                    item.uploaded_by_name.trim().toLowerCase() === currentUserName.trim().toLowerCase();
+
             const row = document.createElement('div');
             row.className = 'library-item';
             

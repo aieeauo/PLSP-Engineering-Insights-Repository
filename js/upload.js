@@ -40,8 +40,9 @@ window.clearFile = function(event) {
 uploadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const user = JSON.parse(localStorage.getItem('user'));
-    const fullName = user ? (user.first_name + " " + user.last_name) : localStorage.getItem('userName');
+    const user = JSON.parse(localStorage.getItem('user')) || {};
+    const fullName = user.name || (user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : "Anonymous Instructor");
+    
     const file = fileInput.files[0];
     const title = document.getElementById('resource-title').value;
     const type = document.getElementById('resource-type').value;
@@ -71,7 +72,7 @@ uploadForm.addEventListener('submit', async (e) => {
                         if (event.lengthComputable) {
                             const percent = Math.round((event.loaded / event.total) * 100);
                             if (progressBar) progressBar.style.width = percent + '%';
-                            submitBtn.innerText = `Cloud Upload (${percent}%)`;
+                            submitBtn.innerText = `Uploading (${percent}%)`;
                         }
                     };
 
