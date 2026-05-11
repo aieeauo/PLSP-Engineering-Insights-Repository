@@ -44,11 +44,17 @@ function openVideo(videoSrc, videoTitle) {
             videoPlayer.load(); 
             videoPlayer.play().catch(err => console.log("Auto-play blocked by browser:", err));
         }
-    } else {
-        alert("Access Restricted: Please log in to watch lecture videos.");
-        window.location.href = '/portalaccess.html';
-    }
-}
+
+    document.querySelectorAll('.btn-watch').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            if (userRole === 'guest') {
+                e.preventDefault();
+                alert("Access Restricted: Please log in to watch lecture videos.");
+                window.location.href = '/portalaccess.html';
+            }
+        });
+    });
+}};
 
 function stopVideo() {
     const videoPlayer = document.getElementById('modalVideoPlayer');

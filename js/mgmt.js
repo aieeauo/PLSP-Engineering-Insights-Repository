@@ -62,7 +62,7 @@ window.logoutUser = function(e) {
     localStorage.removeItem('student_number');
     localStorage.removeItem('email_address');
 
-    window.location.href = '../index.html';    
+    window.location.href = '/index.html';    
 };
 
 document.addEventListener('DOMContentLoaded', applyViewPermissions);
