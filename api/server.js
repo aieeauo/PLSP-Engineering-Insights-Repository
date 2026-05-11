@@ -238,11 +238,20 @@ app.get('/', (req, res) => {
 
 app.get('/:page', (req, res) => {
     const page = req.params.page;
-    if (page.startsWith('api') || (page.includes('.') && !page.endsWith('.html'))) {
+    
+    if (page.startsWith('api')) return; 
+
+    if (page.includes('.') && !page.endsWith('.html')) {
         return res.status(404).send('Not found');
     }
+
     const fileName = page.endsWith('.html') ? page : `${page}.html`;
-    res.sendFile(path.join(rootDir, fileName));
+    
+    res.sendFile(path.join(rootDir, fileName), (err) => {
+        if (err) {
+            res.status(404).send('Page not found');
+        }
+    });
 });
 
 const PORT = process.env.PORT || 5000;
