@@ -42,10 +42,12 @@ app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
 app.use('/js', express.static(path.join(__dirname, 'api')));
 
-app.use(express.static(path.join(__dirname, '../')));
+const rootDir = path.resolve(__dirname, '..');
+
+app.use(express.static(rootDir));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'));
+    res.sendFile(path.join(rootDir, 'index.html'));
 });
 
 app.post('/api/signup/student', async (req, res) => {
