@@ -196,7 +196,7 @@ You may execute migrations during project setup to initialize the required table
 
 ## 🔑 Authentication Access
 
-## 📝 User Registration
+### 📝 User Registration
 
 ### Instructor Sign Up Requirements
 New instructor accounts require:
