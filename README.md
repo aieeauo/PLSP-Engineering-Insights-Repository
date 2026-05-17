@@ -1,62 +1,177 @@
 # 🎓 PLSP Engineering Insights Repository
 
-A full-stack web application designed for the **PLSP Engineering Department** to centralize, manage, and share academic resources. This platform allows instructors to upload high-quality video lectures and PDF modules, overcoming traditional cloud hosting limitations.
+A centralized academic resource hub built specifically for the **Pamantasan ng Lungsod ng San Pablo (PLSP) Engineering Department**. This platform enables instructors to securely publish academic resources while giving students streamlined access to high-quality PDF modules and video lecture materials.
 
-## 🚀 Key Features
-* **Dual-Storage Architecture:** Optimized handling of different media types.
-    * **PDFs:** Managed via **Vercel Blob** for high-speed document delivery.
-    * **Videos:** **Direct-to-Cloudinary** client-side uploading to bypass Vercel’s 4.5MB payload limits.
-* **Instructor Dashboard:** Secure portal for faculty to upload, edit, and delete their specific resources.
-* **Dynamic Resource Library:** A clean, searchable interface for students to access engineering materials.
-* **Role-Based Permissions:** Ensures only the original uploader has administrative rights over a specific resource.
+## ✨ Features
 
-## 🛠️ Tech Stack
-* **Frontend:** HTML5, CSS3, JavaScript (ES6+), FontAwesome Icons
-* **Backend:** Node.js, Express.js
-* **Database:** PostgreSQL (hosted via **Neon.tech**)
-* **Storage Providers:** Cloudinary (Video) & Vercel Blob (Documents)
-* **Deployment:** Vercel
+### 👨‍🏫 Instructor Portal
+- 🔐 Secure registration and login with email validation
+- 🔍 Alphabetically organized resource catalog
+- 📤 **Unified Resource Publisher** for uploading course materials with custom:
+  - Titles
+  - Categories
+  - Descriptions
+- 📄 **PDF Module Upload**
+  - Supports study guides up to **25MB**
+- 🎬 **Video Lecture Streaming**
+  - Supports video uploads up to **500MB**
+- 📊 **Dynamic Dashboard**
+  - Real-time analytics and material upload tracking
 
-## 🏗️ System Architecture
-The project utilizes a hybrid **"Client-Side Upload"** strategy to ensure scalability:
-1.  **PDF Path:** Browser → Server (Express) → Vercel Blob.
-2.  **Video Path:** Browser → Cloudinary (Direct) → Server (Metadata Link only) → Neon DB.
+### 🧑‍🎓 Student & Guest Interface
+- 🔐 Secure registration and login with email validation
+- 🔍 Alphabetically organized resource catalog
+- 📑 **Role-Based Access Control (RBAC)**
+  - Guests can browse the homepage
+  - Downloads and streaming require a login
+- 📱 **Mobile-First Responsive Design**
+  - Optimized for:
+    - Smartphones
+    - Tablets
+    - Laptops
+    - Desktop devices
+- 🎭 **Built-in Modal Video Player**
+  - Watch lectures directly within the platform
 
-## 🔧 Installation & Setup
+## 🚀 Cloud Architecture & Tech Stack
 
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/aieeauo/PLSP-Engineering-Insights-Repository.git](https://github.com/aieeauo/PLSP-Engineering-Insights-Repository.git)
+### Frontend
+- **HTML5 & CSS3**
+  - Semantic structure with glassmorphism-inspired UI
+- **Bootstrap 5.3**
+  - Responsive layout framework
+- **JavaScript (ES6+)**
+  - Authentication persistence via `localStorage`
+  - Client-side route protection
+- **FontAwesome 6.5**
+  - Scalable vector icons
 
-2. **Install dependencies:**
-   ```bash
-   npm install
+### Backend & Cloud Infrastructure
+- **Node.js & Express**
+  - Server-side routing and API handling
+- **PostgreSQL (`pg`)**
+  - Relational database for user and metadata management
+- **BcryptJS**
+  - Password hashing and security
+- **Vercel Blob Storage**
+  - Distributed PDF asset storage
+- **Cloudinary SDK**
+  - Video processing and optimization
+- **Multer**
+  - Multipart form-data handling
 
-3. **Environment Variables:** Create a .env file in the root directory and add your credentials:
-   ```Code snippet
-   DATABASE_URL=your_neon_db_url
-   BLOB_READ_WRITE_TOKEN=your_vercel_blob_token
-   CLOUDINARY_URL=your_cloudinary_url
+## 🔧 Installation & Environment Setup
 
-4. **Run locally:**
-   ```bash
-   node api/server.js
+### 1. Prerequisites
 
-## 👤 Project Team
-**Anniejel Llaguno | Lead Developer & Technical Lead**
-* Handled the end-to-end implementation of the platform, including the development of the server-side logic, database management, and the frontend interface. Engineered the hybrid storage architecture to bypass cloud payload limitations.
+Ensure you have the following installed:
 
-**Kheidyl Cleiah Calusa | UI/UX Consultant**
-* Assisted in the visual layout and color scheme selection to ensure the repository remains user-friendly for engineering students.
+- **Node.js v18+**
+- **npm v9+**
+- A live **PostgreSQL** database instance
+- Active accounts for:
+  - **Cloudinary**
+  - **Vercel**
 
-**Euri Camua | Technical Content Associate**
-* Coordinated the collection and organization of lecture materials and hardware modules for the repository database.
+### 2. Environment Configuration
 
-**Kimberly Cristobal | Project Documentation Specialist**
-* Maintained the project records and helped draft the technical descriptions for the repository's academic hub.
+Create a `.env` file in the root directory:
 
-**Lee Dechavez | Compliance & Security Assistant**
-* Helped document the user access requirements and verified that login protocols meet the project's elective standards.
+```env
+# Server Running Environment
+PORT=5000
+NODE_ENV=development
 
-**Daniela Francine Marie Pujanes | Quality Assurance Support**
-* Conducted cross-browser testing and provided feedback on the repository's functionality to identify potential bugs.
+# PostgreSQL Database
+DATABASE_URL=your_postgresql_connection_string
+
+# Cloudinary Credentials
+CLOUDINARY_NAME=your_cloudinary_cloud_name
+CLOUDINARY_KEY=your_cloudinary_api_key
+CLOUDINARY_SECRET=your_cloudinary_api_secret
+
+# Vercel Blob Storage Token
+BLOB_READ_WRITE_TOKEN=your_vercel_blob_read_write_token
+```
+
+### 3. Install Dependencies
+
+```bash
+npm install
+```
+
+### 4. Run Development Server
+
+```bash
+npm start
+```
+
+The application will run at:
+
+```bash
+http://localhost:5000
+```
+
+## 📁 Repository Directory Architecture
+
+```bash
+plsp-engg-insights-repository/
+├── 📂 api/
+│   └── 📄 server.js         # Core Express App engine & dynamic router
+├── 📂 css/
+│   └── 📄 homepage.css      # Core styles & mobile media query blocks
+├── 📂 js/
+│   ├── 📄 analytics.js      # Aggregates real-time repository metric counts
+│   ├── 📄 homepage.js       # Client authentication & resource modal constraints
+│   ├── 📄 latestresources.js# Renders newly published course assets
+│   └── 📄 mgmt.js           # Instructor publishing forms interaction handler
+├── 📂 img/                  # Graphic asset directory
+├── 📄 index.html            # Main Landing Portal layout file
+├── 📄 about.html            # Department overview interface
+├── 📄 portalaccess.html     # Secure signup/login registration page
+├── 📄 repository.html       # Public asset catalog display board
+├── 📄 vercel.json           # Master cloud url rewrites rule map
+└── 📄 package.json          # Node dependency configurations record
+```
+
+## 🔐 Access Control
+
+| Role | Permissions |
+|------|------------|
+| **Guest** | Browse homepage only |
+| **Student** | Stream and download resources |
+| **Instructor** | Upload, manage, and publish resources |
+
+## 🌐 Deployment
+
+This system is optimized for deployment on:
+
+- **Vercel** (Frontend + Blob Storage)
+- **Cloudinary** (Video Streaming)
+- **PostgreSQL Cloud Hosting**
+  - Neon
+  - Supabase
+  - Railway
+
+Deploy using:
+
+```bash
+vercel deploy
+```
+
+## 🎯 Purpose
+
+The **PLSP Engineering Insights Repository** was designed to:
+
+- Improve digital academic resource accessibility
+- Centralize engineering course materials
+- Enhance remote and blended learning experiences
+- Provide a scalable cloud-based academic repository for PLSP
+
+## 📜 License
+
+This project is intended for **academic and institutional use** by PLSP.
+
+---
+
+> Empowering engineering education through centralized digital learning resources.
