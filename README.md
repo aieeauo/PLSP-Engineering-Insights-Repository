@@ -2,6 +2,8 @@
 
 A centralized academic resource hub built specifically for the **Pamantasan ng Lungsod ng San Pablo (PLSP) Engineering Department**. This platform enables instructors to securely publish academic resources while giving students streamlined access to high-quality PDF modules and video lecture materials.
 
+---
+
 ## ✨ Features
 
 ### 👨‍🏫 Instructor Portal
@@ -32,6 +34,8 @@ A centralized academic resource hub built specifically for the **Pamantasan ng L
     - Desktop devices
 - 🎭 **Built-in Modal Video Player**
   - Watch lectures directly within the platform
+ 
+---
 
 ## 🚀 Cloud Architecture & Tech Stack
 
@@ -59,6 +63,8 @@ A centralized academic resource hub built specifically for the **Pamantasan ng L
   - Video processing and optimization
 - **Multer**
   - Multipart form-data handling
+ 
+---
 
 ## 🔧 Installation & Environment Setup
 
@@ -111,6 +117,118 @@ The application will run at:
 ```bash
 http://localhost:5000
 ```
+
+---
+
+## 🗄️ Database Structure
+
+### Database: PostgreSQL
+
+The system uses a relational PostgreSQL database composed of the following primary tables:
+
+### 1. `instructors`
+
+Stores all registered instructor accounts.
+
+| Column | Data Type | Description |
+|--------|----------|-------------|
+| user_id | SERIAL PRIMARY KEY | Unique user identifier |
+| first_name | TEXT | User first name |
+| last_name | TEXT | User last name |
+| email_address | VARCHAR(255) UNIQUE | Registered email |
+| password | TEXT | Hashed password |
+| created_at | TIMESTAMP | Account creation date |
+
+### 2. `resources`
+
+Stores uploaded PDF modules and video lecture metadata.
+
+| Column | Data Type | Description |
+|--------|----------|-------------|
+| resources_id | SERIAL PRIMARY KEY | Resource identifier |
+| title | TEXT | Resource title |
+| description | TEXT | Resource description |
+| file_url | TEXT | Cloud-hosted file link |
+| file_type | VARCHAR(50) | PDF or Video |
+| uploaded_by | INTEGER | Instructor ID |
+| created_at | TIMESTAMP | Upload date |
+
+### 3. `students`
+
+Stores all registered student accounts.
+
+| Column | Data Type | Description |
+|--------|----------|-------------|
+| user_id | SERIAL PRIMARY KEY | Unique user identifier |
+| first_name | TEXT | User first name |
+| last_name | TEXT | User last name |
+| student_number | VARCHAR(255) UNIQUE | Registered student number |
+| password | TEXT | Hashed password |
+| created_at | TIMESTAMP | Account creation date |
+
+---
+
+## 🔄 Database Relationships
+
+```plaintext
+users
+   └── resources (uploaded_by)
+
+resources
+   └── analytics
+```
+
+---
+
+## 🛠 Database Initialization
+
+Run PostgreSQL schema setup:
+
+```sql
+CREATE TABLE instructors (...);
+CREATE TABLE resources (...);
+CREATE TABLE students (...);
+```
+
+You may execute migrations during project setup to initialize the required tables.
+
+---
+
+## 🔑 Authentication Access
+
+## 📝 User Registration
+
+### Instructor Sign Up Requirements
+New instructor accounts require:
+
+- First Name
+- Last Name
+- Email Address
+- Password
+
+### Login Validation
+Authentication is secured using:
+
+- Email validation
+- Password hashing through **BcryptJS**
+- Session persistence using **localStorage**
+
+### Student Sign Up Requirements
+New student accounts require:
+
+- First Name
+- Last Name
+- Student Number
+- Password
+
+### Login Validation
+Authentication is secured using:
+
+- Student number validation
+- Password hashing through **BcryptJS**
+- Session persistence using **localStorage**
+
+---
 
 ## 📁 Repository Directory Architecture
 
@@ -166,6 +284,8 @@ plsp-engg-insights-repository/
 └── 📄 vercel.json             # Master cloud environment URL serverless route map
 ```
 
+---
+
 ## 🔐 Access Control
 
 | Role | Permissions |
@@ -173,6 +293,8 @@ plsp-engg-insights-repository/
 | **Guest** | Browse homepage only |
 | **Student** | Stream and download resources |
 | **Instructor** | Upload, manage, and publish resources |
+
+---
 
 ## 🌐 Deployment
 
@@ -191,6 +313,8 @@ Deploy using:
 vercel deploy
 ```
 
+---
+
 ## 🎯 Purpose
 
 The **PLSP Engineering Insights Repository** was designed to:
@@ -199,6 +323,8 @@ The **PLSP Engineering Insights Repository** was designed to:
 - Centralize engineering course materials
 - Enhance remote and blended learning experiences
 - Provide a scalable cloud-based academic repository for PLSP
+
+---
 
 ## 📜 License
 
