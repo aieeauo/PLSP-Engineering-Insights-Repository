@@ -117,53 +117,53 @@ http://localhost:5000
 ```bash
 plsp-engg-insights-repository/
 ├── 📂 api/
-│   ├── 📄 db.js             # PostgreSQL database connection pooling setup
-│   └── 📄 server.js         # Core Express App engine & Serverless router
+│   ├── 📄 db.js               # PostgreSQL database connection pooling setup
+│   └── 📄 server.js           # Core Express App engine & Serverless router
 ├── 📂 css/
-│   ├── 📄 about.css         # Styling for department overview interface
-│   ├── 📄 admin.css         # Layout views for repository administration portals
-│   ├── 📄 edit.css          # Form styling for updating resource assets
-│   ├── 📄 homepage.css      # Core landing page styles & responsiveness layout
-│   ├── 📄 instructor-auth.css# Custom inputs and themes for faculty portals
-│   ├── 📄 library.css       # Layout styles for the core asset viewer modules
-│   ├── 📄 portalaccess.css  # Shared gateway registration view aesthetics
-│   ├── 📄 repository.css    # Document search grid and element design tags
-│   ├── 📄 student-auth.css  # Student authentication screen card designs
-│   ├── 📄 team.css          # Profiles layout styling for team creators
-│   └── 📄 upload.css        # Multi-media publisher drag-and-drop frame interfaces
+│   ├── 📄 about.css           # Styling for department overview interface
+│   ├── 📄 admin.css           # Layout views for repository administration portals
+│   ├── 📄 edit.css            # Form styling for updating resource assets
+│   ├── 📄 homepage.css        # Core landing page styles & responsiveness layout
+│   ├── 📄 instructor-auth.css # Custom inputs and themes for faculty portals
+│   ├── 📄 library.css         # Layout styles for the core asset viewer modules
+│   ├── 📄 portalaccess.css    # Shared gateway registration view aesthetics
+│   ├── 📄 repository.css      # Document search grid and element design tags
+│   ├── 📄 student-auth.css    # Student authentication screen card designs
+│   ├── 📄 team.css            # Profiles layout styling for team creators
+│   └── 📄 upload.css          # Multi-media publisher drag-and-drop frame interfaces
 ├── 📂 js/
-│   ├── 📄 analytics.js      # Aggregates system metrics & live file resource counts
-│   ├── 📄 edit.js           # Client-side validation rules for asset modification
-│   ├── 📄 homepage.js       # Basic navigation workflows and system path controls
-│   ├── 📄 instructor-auth.js# Form validation and fetch routines for faculty accounts
-│   ├── 📄 latestresources.js# Renders newly published course assets dynamically
-│   ├── 📄 library.js        # Logic handling asset loading grids and cataloging
-│   ├── 📄 mgmt.js           # Document resource administration management events
-│   ├── 📄 repository.js     # Media modal stream triggers and full text search filters
-│   ├── 📄 student-auth.js   # Registration logic & parsing rules for student validation
-│   └── 📄 upload.js         # Handles file constraints, sizes, and cloud payload drops
-├── 📂 img/                  # Graphic asset directory
-│   ├── 🖼️ mempic1.jpg       # Developer team profile asset
-│   ├── 🖼️ mempic2.jpg       # Developer team profile asset
-│   ├── 🖼️ mempic3.jpg       # Developer team profile asset
-│   ├── 🖼️ mempic4.jpg       # Developer team profile asset
-│   ├── 🖼️ mempic5.jpg       # Developer team profile asset
-│   └── 🖼️ mempic6.jpg       # Developer team profile asset
-├── 📄 about.html            # Department overview interface page
-├── 📄 admin.html            # Administrator control interface board
-├── 📄 edit.html             # UI form screen to update metadata parameters
-├── 📄 index.html            # Main Landing Portal layout landing file
-├── 📄 instructor-auth.html  # Secure gateway panel for authorized faculty
-├── 📄 library.html          # Resource storage viewing deck
-├── 📄 package-lock.json     # Locked state cache registry record for npm modules
-├── 📄 package.json          # Core Node backend dependencies descriptor file
-├── 📄 portalaccess.html     # Unified login portal redirect gateway view
-├── 📄 README.md             # Platform setup and user system manual documentation
-├── 📄 repository.html       # Public asset catalog display board
-├── 📄 student-auth.html     # Dedicated registration/login window for students
-├── 📄 team.html             # System contributors information interface display
-├── 📄 upload.html           # Media asset creation upload dashboard panel
-└── 📄 vercel.json           # Master cloud environment URL serverless route map
+│   ├── 📄 analytics.js        # Aggregates system metrics & live file resource counts
+│   ├── 📄 edit.js             # Client-side validation rules for asset modification
+│   ├── 📄 homepage.js         # Basic navigation workflows and system path controls
+│   ├── 📄 instructor-auth.js  # Form validation and fetch routines for faculty accounts
+│   ├── 📄 latestresources.js  # Renders newly published course assets dynamically
+│   ├── 📄 library.js          # Logic handling asset loading grids and cataloging
+│   ├── 📄 mgmt.js             # Document resource administration management events
+│   ├── 📄 repository.js       # Media modal stream triggers and full text search filters
+│   ├── 📄 student-auth.js     # Registration logic & parsing rules for student validation
+│   └── 📄 upload.js           # Handles file constraints, sizes, and cloud payload drops
+├── 📂 img/                    # Graphic asset directory
+│   ├── 🖼️ mempic1.jpg         # Developer team profile asset
+│   ├── 🖼️ mempic2.jpg         # Developer team profile asset
+│   ├── 🖼️ mempic3.jpg         # Developer team profile asset
+│   ├── 🖼️ mempic4.jpg         # Developer team profile asset
+│   ├── 🖼️ mempic5.jpg         # Developer team profile asset
+│   └── 🖼️ mempic6.jpg         # Developer team profile asset
+├── 📄 about.html              # Department overview interface page
+├── 📄 admin.html              # Administrator control interface board
+├── 📄 edit.html               # UI form screen to update metadata parameters
+├── 📄 index.html              # Main Landing Portal layout landing file
+├── 📄 instructor-auth.html    # Secure gateway panel for authorized faculty
+├── 📄 library.html            # Resource storage viewing deck
+├── 📄 package-lock.json       # Locked state cache registry record for npm modules
+├── 📄 package.json            # Core Node backend dependencies descriptor file
+├── 📄 portalaccess.html       # Unified login portal redirect gateway view
+├── 📄 README.md               # Platform setup and user system manual documentation
+├── 📄 repository.html         # Public asset catalog display board
+├── 📄 student-auth.html       # Dedicated registration/login window for students
+├── 📄 team.html               # System contributors information interface display
+├── 📄 upload.html             # Media asset creation upload dashboard panel
+└── 📄 vercel.json             # Master cloud environment URL serverless route map
 ```
 
 ## 🔐 Access Control
