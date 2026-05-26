@@ -304,8 +304,6 @@ This system is optimized for deployment on:
 - **Cloudinary** (Video Streaming)
 - **PostgreSQL Cloud Hosting**
   - Neon
-  - Supabase
-  - Railway
 
 Deploy using:
 
