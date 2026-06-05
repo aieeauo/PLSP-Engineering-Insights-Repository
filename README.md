@@ -1,4 +1,4 @@
-# 🎓 PLSP Engineering Insights Repository
+# 🎓 DLSP Engineering Insights Repository
 
 A centralized academic resource hub built specifically for the **Dalubhasaan ng Lungsod ng San Pablo (DLSP) Engineering Programs**. This platform enables instructors to securely publish academic resources while giving students streamlined access to high-quality PDF modules and video lecture materials.
 
