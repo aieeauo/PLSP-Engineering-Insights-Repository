@@ -315,7 +315,7 @@ vercel deploy
 
 ## 🎯 Purpose
 
-The **PLSP Engineering Insights Repository** was designed to:
+The **DLSP Engineering Insights Repository** was designed to:
 
 - Improve digital academic resource accessibility
 - Centralize engineering course materials
@@ -326,7 +326,7 @@ The **PLSP Engineering Insights Repository** was designed to:
 
 ## 📜 License
 
-This project is intended for **academic and institutional use** by PLSP.
+This project is intended for **academic and institutional use** by DLSP.
 
 ---
 
